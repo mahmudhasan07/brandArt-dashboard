@@ -16,17 +16,21 @@ import Cookies from "js-cookie";
 import { AppDispatch, RootState } from "@/Redux/store";
 import { IconType } from "react-icons";
 import { useState } from "react";
+import { MdLocationOn } from "react-icons/md";
+import { FaBed } from 'react-icons/fa';
+import { FaRegUserCircle } from "react-icons/fa";
+import { SlCalender } from "react-icons/sl";
 interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
 }
 
 const navigation: { label: string, route: string, iconPath: IconType }[] = [
-  { label: "Dashboard", route: "/", iconPath: MdDashboard },
-  { label: "Needers", route: "/needers", iconPath: FaUsers },
-  { label: "Helpers", route: "/helpers", iconPath: FaUsers },
-  { label: "Transaction", route: "/transaction", iconPath: TbTransactionDollar }, 
-  { label: "Complains", route: "/complains", iconPath: TbTransactionDollar }, 
+  // { label: "Dashboard", route: "/", iconPath: MdDashboard },
+  { label: "Location & Hour", route: "/needers", iconPath: MdLocationOn },
+  { label: "Offered Service", route: "/helpers", iconPath: FaBed },
+  { label: "Client Management", route: "/transaction", iconPath: FaRegUserCircle },
+  // { label: "Complains", route: "/complains", iconPath: TbTransactionDollar },
 ];
 
 const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
@@ -82,8 +86,8 @@ const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
       </button>
 
       {/* Sidebar Content */}
-      <div className={`h-screen bg-white duration-300 flex flex-col  font-inter ${isOpen ? 'w-[270px]' : 'w-[80px]'
-          }`}
+      <div className={`h-screen bg-white duration-300 flex flex-col  font-inter ${isOpen ? 'w-[320px]' : 'w-[80px]'
+        }`}
       >
         {/* Logo */}
         {isOpen && (
@@ -98,12 +102,13 @@ const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
             <ul className="pt-2 pb-4 space-y-1 text-sm">{navigation.map(renderNavItem)}</ul>
           </div> */}
 
-          <div className="relative p-2">
+          <div className="relative">
             <button
               onClick={toggleDropdown}
-              className="flex items-center w-full space-x-2 text-gray-700 font-medium hover:text-blue-500"
+              className="flex items-center gap-2 w-full p-3 justify-center  text-gray-700 font-medium hover:bg-gradient-to-r hover:from-primary/80 hover:to-primary/65"
             >
-              <span className="w-full">Appointment Management</span>
+              <SlCalender className="text-lg" />
+              <span className="">Appointment Management</span>
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -120,17 +125,22 @@ const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
               </svg>
             </button>
             {isDropdownOpen && (
-              <div className=" left-0 mt-2 bg-white shadow-lg rounded-lg w-56 border border-gray-100 z-10">
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Current Session</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Waiting for approval</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Next in Queue</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Completed Appointment</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Canceled Appointment</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Location & Hour</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Offered Services</a>
-                <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Client Management</a>
+              <div className=" left-0 mt-2  mx-auto bg-white w-56 ">
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Current Session</Link>
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Waiting for approval</Link>
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Next in Queue</Link>
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Completed Appointment</Link>
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Canceled Appointment</Link>
+                {/* <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Location & Hour</Link>
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Offered Services</Link>
+                <Link href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Client Management</Link> */}
               </div>
             )}
+
+            <div className="space-y-3">
+              <ul className="pt-2 pb-4 space-y-1 text-sm">{navigation.map(renderNavItem)}</ul>
+            </div>
+
           </div>
 
           {/* Logout Button */}
