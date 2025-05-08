@@ -40,7 +40,7 @@ const LogIn = () => {
             setLogIn("Log in")
         }
         if (data) {
-            if (data?.data?.role != "SUPERADMIN") {
+            if (data?.data?.role != "ADMIN") {
                 ShowToastify({ error: "You are not authorize" })
                 setLogIn("Log in")
                 dispatch(logOut())
