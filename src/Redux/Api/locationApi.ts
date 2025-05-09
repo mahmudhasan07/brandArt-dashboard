@@ -6,34 +6,41 @@ const location = baseApi.injectEndpoints({
             query: () => ({
                 url: '/locations/get-my-locations',
                 method: 'GET'
-            })
+            }),
+            providesTags: ["location"]
+        
         }),
         addLocation: build.mutation({   
             query: (data) => ({
                 url: '/locations/create-location',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags : ["location"]
         }),
         updateLocation: build.mutation({   
             query: ({data, id}) => ({
                 url: `/locations/update-location/${id}`,
                 method: 'PUT',
                 body: data
-            })
+            }),
+            invalidatesTags : ["location"]
         }),
         deleteLocation: build.mutation({   
             query: (id) => ({
-                url: `/locations/${id}`,
+                url: `/locations/delete-location/${id}`,
                 method: 'DELETE',
-            })
+            }),
+            invalidatesTags : ["location"]
         }),
         getLocationById: build.query({
             query: (id) => ({
                 url: `/locations/${id}`,
                 method: 'GET',
-            })
+            }),
+            providesTags : ["location"]
         }),
+   
     }),
 })
 

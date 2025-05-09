@@ -100,7 +100,7 @@ const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
         {/* Logo */}
         {isOpen && (
           <Link href="/" className="flex justify-center mb-6">
-            <Image width={120} height={120} className="w-40 mt-14" src={logo} alt="logo_image" />
+            <Image width={20} height={20} className="w-24 mt-14" src={logo} alt="logo_image" />
           </Link>
         )}
 

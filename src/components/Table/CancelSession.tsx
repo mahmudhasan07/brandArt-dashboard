@@ -18,7 +18,7 @@ const CancelSession = () => {
     }
 
     return (
-        <section>
+        <section className='p-5'>
             <h1 className='text-3xl font-semibold my-8 mx-5'>Cancel Session</h1>
             {
                 loading ?

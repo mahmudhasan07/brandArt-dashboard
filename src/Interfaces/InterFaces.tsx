@@ -1,9 +1,10 @@
 
 export interface UserInterFace {
-    name: string
+    userName: string
     email: string
     role: string
     status: string
+    profileImage: string
     id: string
 }
 
@@ -26,5 +27,5 @@ export interface ComplainInterface {
     }
     title: string
     id: string
-    status : string
+    status: string
 }
