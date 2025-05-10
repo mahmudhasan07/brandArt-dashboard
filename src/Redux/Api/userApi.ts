@@ -13,6 +13,16 @@ const userApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ["logIn"]
         }),
+        registerUser: build.mutation({
+            query: (data: any) => {
+                return {
+                    url: "/auth/register-user",
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ["register"]
+        }),
         allUsers: build.query({
             query: ({ page, limit, email, activeTab }) => ({
                 url: `/users?limit=${limit}&page=${page}`,
@@ -55,4 +65,4 @@ const userApi = baseApi.injectEndpoints({
 })
 
 
-export const { useLoginUserMutation, useAllCreatorsQuery, useAllUsersQuery, useUserStatusUpdateMutation, useSingleUserQuery, useDashboardInfoQuery } = userApi
+export const { useLoginUserMutation, useAllCreatorsQuery, useAllUsersQuery, useUserStatusUpdateMutation, useSingleUserQuery, useDashboardInfoQuery, useRegisterUserMutation } = userApi

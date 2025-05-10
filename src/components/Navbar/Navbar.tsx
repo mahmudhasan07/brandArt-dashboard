@@ -2,9 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import NavbarSlider from './NavbarSlider';
 import { usePathname } from 'next/navigation';
-
+import { useDispatch } from 'react-redux';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+      const token = Cookies.get("token");
 
     const pathName = usePathname()
 
@@ -17,10 +20,55 @@ const Navbar = () => {
         }
     };
 
+     const dispatch = useDispatch()
+    // useEffect(() => {
+    //     const tokenDetails = token ? jwtDecode(token as string) : null;
+
+    //     const currentTime = Math.floor(Date.now() / 1000);
+    //     // Check if the token is expired
+    //     if (tokenDetails != undefined && tokenDetails.exp && tokenDetails.exp > currentTime) {
+
+    //     } else {
+    //         dispatch(logOut())
+    //         Cookies?.remove("token")
+    //         dispatch(checkOutOrder({ id: null, checkoutData: null }))
+    //     }
+    //     // const handleScroll = () => {
+    //     //     // Check if user has scrolled past the banner (100vh)
+    //     //     if (window.scrollY > 300) {
+    //     //         setIsScrolled(true);
+    //     //     } else {
+    //     //         setIsScrolled(false);
+    //     //     }
+    //     // };
+
+    //     // window.addEventListener("scroll", handleScroll);
+
+    //     // return () => {
+    //     //     window.removeEventListener("scroll", handleScroll);
+    //     // };
+
+
+    // }, [dispatch, token]);
+
     // Set up the resize listener to trigger device responsiveness
     useEffect(() => {
         // Call it once on mount to set the correct state based on current screen size
         deviceResponsive();
+
+  const tokenDetails = token ? jwtDecode(token as string) : null;
+
+        const currentTime = Math.floor(Date.now() / 1000);
+        // Check if the token is expired
+        if (tokenDetails != undefined && tokenDetails.exp && tokenDetails.exp > currentTime) {
+
+        } else {
+            console.log("token expired");
+            
+            // dispatch(logOut())
+            // Cookies?.remove("accessToken")
+            // dispatch(checkOutOrder({ id: null, checkoutData: null }))
+        }
 
         // Add event listener for resize events
         window.addEventListener('resize', deviceResponsive);

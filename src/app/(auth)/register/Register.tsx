@@ -10,48 +10,46 @@ import { useDispatch } from "react-redux";
 // import { AppDispatch } from "@/components/Redux/store";
 // import { setUser } from "@/components/Redux/ReduxFunction";
 import Cookies from "js-cookie"
-import { useLoginUserMutation } from "@/Redux/Api/userApi";
+import { useRegisterUserMutation } from "@/Redux/Api/userApi";
 import { AppDispatch } from "@/Redux/store";
 import { logOut, setUser } from "@/Redux/ReduxFunction";
 import ShowToastify from "@/utils/ShowToastify";
 import { ToastContainer } from "react-toastify";
 import Link from "next/link";
 
-const LogIn = () => {
+const Register = () => {
     const [checked, setChecked] = useState<boolean>(false);
-    const [logIn, setLogIn] = useState<string>('Log in');
+    const [logIn, setLogIn] = useState<string>('Register');
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [loginFun] = useLoginUserMutation()
+    const [RegisterFun] = useRegisterUserMutation()
     const dispatch = useDispatch<AppDispatch>()
     const route = useRouter()
 
-    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         // e.stopPropagation()
         const fromData = new FormData(e.currentTarget)
         setLogIn("loading ...")
+        const userName = fromData.get("name")
         const email = fromData.get("email")
         const password = fromData.get("password")
-        const loginData = { email, password }
+        const location = fromData.get("location")
+        const role = "ADMIN"
+        const registerData = { userName,email, password, location, role }
 
-        const { data, error } = await loginFun(loginData)
+        const { data, error } = await RegisterFun(registerData)
 
         if (error) {
-            ShowToastify({ error: "Check your password or email address" })
-            setLogIn("Log in")
-        }
-        if (data) {
-            if (data?.data?.role != "ADMIN") {
-                ShowToastify({ error: "You are not authorize" })
-                setLogIn("Log in")
-                dispatch(logOut())
-                return
-
+            if ('data' in error) {
+                ShowToastify({ error: (error.data as { message: string }).message });
+            } else {
+                ShowToastify({ error: "An unexpected error occurred" });
             }
-            dispatch(setUser({ name: data?.data?.userName, role: data?.data?.role }))
-            Cookies.set("accessToken", data?.data?.accessToken)
-            route.push("/")
+            setLogIn("Register")
+            return
         }
+        ShowToastify({ success: "Register successfully" })
+
     }
 
 
@@ -68,11 +66,11 @@ const LogIn = () => {
                 </div>
 
                 <h2 className="text-4xl text-center my-4">Hi, Welcome Back! 👋</h2>
-                <p className="text-center text-gray-600 mb-8">
-                    If you don't have an account, <Link href={'/register'} className="font-semibold text-primary text-lg">Register Here</Link>
+               <p className="text-center text-gray-600 mb-8">
+                    If you have an account, <Link href={'/login'} className="font-semibold text-primary text-lg">Login Here</Link>
                 </p>
 
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleRegister}>
                     <div className="mb-4">
                         <label
                             htmlFor="email"
@@ -83,6 +81,36 @@ const LogIn = () => {
                         <input
                             type="email"
                             name="email"
+                            required
+                            className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm  focus:border-primary"
+                            placeholder="georgia.young@example.com"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label
+                            htmlFor="name"
+                            className="block text-base font-medium text-gray-700"
+                        >
+                            User Name
+                        </label>
+                        <input
+                            type="text"
+                            name="name"
+                            required
+                            className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm  focus:border-primary"
+                            placeholder="georgia.young@example.com"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label
+                            htmlFor="location"
+                            className="block text-base font-medium text-gray-700"
+                        >
+                            Location
+                        </label>
+                        <input
+                            type="text"
+                            name="location"
                             required
                             className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm  focus:border-primary"
                             placeholder="georgia.young@example.com"
@@ -109,7 +137,7 @@ const LogIn = () => {
                         </div>
                     </div>
                     {/* Remember Me and Forgot Password */}
-                    <div className="flex items-center justify-between mb-6">
+                    {/* <div className="flex items-center justify-between mb-6">
                         <label className="flex items-center">
                             <input
                                 type="checkbox"
@@ -127,7 +155,7 @@ const LogIn = () => {
                         >
                             Forgot Password?
                         </a>
-                    </div>
+                    </div> */}
 
                     <button className="w-full bg-gradient-to-r from-primary to-primary/90 py-2 text-lg font-semibold text-white rounded-lg">{logIn}</button>
                 </form>
@@ -139,4 +167,4 @@ const LogIn = () => {
     );
 };
 
-export default LogIn;
+export default Register;

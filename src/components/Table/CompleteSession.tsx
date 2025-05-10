@@ -5,6 +5,7 @@ import TableLoader from '../Loader/TableLoader';
 import Image from 'next/image';
 import ShowToastify from '@/utils/ShowToastify';
 import { ToastContainer } from 'react-toastify';
+import noFace from "@/assests/no-face.png"
 
 const CompleteSession = () => {
    
@@ -43,7 +44,7 @@ const CompleteSession = () => {
                             {
                                 result?.map((item: any) => (
                                     <tr key={item.id} className="hover:bg-gray-50 text-center border-b">
-                                        <td className="px-4 py-2 "><Image src={item?.user?.profileImage} alt="" width={20} height={20} className='w-10 h-10 rounded-full mx-auto' /></td>
+                                        <td className="px-4 py-2 "><Image src={item?.user?.profileImage ?? noFace} alt="" width={20} height={20} className='w-10 h-10 rounded-full mx-auto' /></td>
                                         <td className="px-4 py-2 ">{item?.user?.userName}</td>
                                         <td className="px-4 py-2 ">{item?.user?.email}</td>
                                         <td className="px-4 py-2 ">{item?.createdAt.split("T")[0]}</td>

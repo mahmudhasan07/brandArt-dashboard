@@ -1,5 +1,8 @@
 'use client';
+import { useAddServiceMutation } from '@/Redux/Api/serviceApi';
+import ShowToastify from '@/utils/ShowToastify';
 import React, { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 export default function AddService() {
   const [serviceType, setServiceType] = useState('Message');
@@ -8,19 +11,24 @@ export default function AddService() {
   const [additionalOffering, setAdditionalOffering] = useState('');
   const [duration, setDuration] = useState('30 Minute');
   const [price, setPrice] = useState(0);
+  const [addServiceFn] = useAddServiceMutation()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newOffering = {
-      serviceType,
-      membership,
-      offering,
-      additionalOffering,
+      title: serviceType,
+      type: membership,
+      offer: offering,
+      additionalOffer:additionalOffering,
       duration,
       price,
     };
-    console.log('New Offering Submitted:', newOffering);
-    alert('Offering updated successfully!');
+    const { data, error } = await addServiceFn(newOffering)
+    if (error && 'data' in error) {
+      ShowToastify({ error: (error.data as { message: string }).message });
+      return;
+    }
+    ShowToastify({ success: "Offering added successfully" })
   };
 
   return (
@@ -51,8 +59,8 @@ export default function AddService() {
             onChange={(e) => setMembership(e.target.value)}
             className="w-full border p-2 rounded-lg"
           >
-            <option value="Non-Member">Non-Member</option>
-            <option value="Member">Member</option>
+            <option value="Non_Members">Non-Member</option>
+            <option value="For_Members">Member</option>
           </select>
         </div>
 
@@ -114,9 +122,10 @@ export default function AddService() {
           type="submit"
           className="w-full bg-indigo-500 text-white py-2 rounded-lg hover:opacity-90 transition"
         >
-          Update
+          Submit
         </button>
       </form>
+      <ToastContainer></ToastContainer>
     </div>
   );
 }

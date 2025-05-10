@@ -1,5 +1,7 @@
 import { useAddLocationMutation } from '@/Redux/Api/locationApi';
+import useGeoLocation from '@/utils/LocationLatLong';
 import ShowToastify from '@/utils/ShowToastify';
+import { useGetLatLngFromPlace } from '@/utils/useGetLatLngFromPlace';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -11,6 +13,10 @@ export default function LocationHoursForm() {
     const [startTime, setStartTime] = useState<Date | null>(new Date());
     const [endTime, setEndTime] = useState<Date | null>(new Date());
     const [location, setLocation] = useState('410 W Main St, Cortez, CO 81321, United States');
+    const { lat, lng } = useGeoLocation()
+    //  const {lat,lng} = useGetLatLngFromPlace("South Manda Jheelapar Road Dhaka, Bangladesh")
+    console.log(lat, lng);
+
 
     const [addLocationFn] = useAddLocationMutation();
 
@@ -21,8 +27,8 @@ export default function LocationHoursForm() {
             startTime: startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : 'Invalid Time',
             endTime: endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : 'Invalid Time',
             location,
-            latitude: 37.3497,
-            longitude: -108.5859,
+            latitude: lat,
+            longitude: lng,
         };
         console.log(output);
 
@@ -106,13 +112,13 @@ export default function LocationHoursForm() {
             </div>
 
             {/* Map Placeholder */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <iframe
                     title="map"
                     src="https://maps.google.com/maps?q=410%20W%20Main%20St,%20Cortez,%20CO%2081321&t=&z=13&ie=UTF8&iwloc=&output=embed"
                     className="w-full h-48 rounded"
                 ></iframe>
-            </div>
+            </div> */}
 
             <button
                 onClick={handleSubmit}

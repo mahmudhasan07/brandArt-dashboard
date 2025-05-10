@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import LocationHoursForm from '../LocationHoursForm/LocationHoursForm';
 import ShowToastify from '@/utils/ShowToastify';
 import { ToastContainer } from 'react-toastify';
+import useGeoLocation from '@/utils/LocationLatLong';
 const LocationHour = () => {
     const [Modal, setModal] = useState<boolean>(false);
     const [deleteFn] = useDeleteLocationMutation()
@@ -16,7 +17,6 @@ const LocationHour = () => {
             loading: isLoading
         }),
     })
-
 
     const handleDelete = async (id: string) => {
         const { data, error } = await deleteFn(id)
@@ -57,8 +57,8 @@ const LocationHour = () => {
                                             <td className="px-4 py-2 ">{item?.startDate} - {item?.endDate}</td>
                                             <td className="px-4 py-2 ">{item?.startTime} - {item?.endTime}</td>
                                             <td className="px-4 py-2 ">{item?.location}</td>
-                                            <td className="px-4 py-2 flex justify-center gap-5 border">
-                                                <button className='p-2 bg-primary text-white font-semibold rounded-lg'><MdEdit /></button>
+                                            <td className="px-4 py-2 flex justify-center gap-5 ">
+                                                {/* <button className='p-2 bg-primary text-white font-semibold rounded-lg'><MdEdit /></button> */}
                                                 <button onClick={() => handleDelete(item.id)} className='p-2 bg-secondary text-white font-semibold rounded-lg '><MdDelete /></button>
                                             </td>
                                         </tr>
