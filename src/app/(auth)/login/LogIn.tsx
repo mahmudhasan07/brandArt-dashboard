@@ -24,6 +24,7 @@ const LogIn = () => {
     const [loginFun] = useLoginUserMutation()
     const dispatch = useDispatch<AppDispatch>()
     const route = useRouter()
+    const [loading, setLoading] = useState();
 
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
