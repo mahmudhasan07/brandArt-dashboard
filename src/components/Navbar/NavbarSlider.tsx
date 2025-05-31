@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation"; // Import the hook
 import { IoClose } from "react-icons/io5"; // Close icon
 import { FiMenu } from "react-icons/fi"; // Menu icon
 import logout from '@/assests/logout.png'
-import logo from "@/assests/logo.png"
+import logo from "@/assests/logo2.jpg"
 import { MdDashboard } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa6";
 import { FaUsers } from "react-icons/fa";

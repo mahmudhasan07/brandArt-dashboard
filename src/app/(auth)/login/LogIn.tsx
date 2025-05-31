@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import logo from "@/assests/logo.png";
+import logo from "@/assests/logo2.jpg";
 import Image from "next/image";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa6";
