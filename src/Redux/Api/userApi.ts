@@ -52,7 +52,7 @@ const userApi = baseApi.injectEndpoints({
                     method: "POST",
                 }
             },
-            invalidatesTags: ["allCreators", "allUsers"]
+            invalidatesTags: ["allCreators", "allUsers", "session"]
         }),
         dashboardInfo: build.query({
             query: () => ({

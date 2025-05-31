@@ -18,15 +18,15 @@ import { useRouter } from "next/navigation";
 import TableLoader from "../Loader/TableLoader";
 import { ToastContainer } from "react-toastify";
 import Image from "next/image";
-import { useMyActiveBookingUsersQuery } from "@/Redux/Api/session";
+import { useMyBlockBookingUsersQuery } from "@/Redux/Api/session";
 
-const UserTable = () => {
+const UserTable2 = () => {
   const route = useRouter();
 
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
 
-  const { userData, isLoading, totalPages } = useMyActiveBookingUsersQuery(
+  const { userData, isLoading, totalPages } = useMyBlockBookingUsersQuery(
     { limit, page },
     {
       selectFromResult: ({ data, isLoading }) => ({
@@ -101,7 +101,7 @@ const UserTable = () => {
                     onClick={() => handleStatus(item?.user.id)}
                     className="px-4 py-1 hover:scale-105 transition-transform font-semibold rounded-lg bg-primary text-white"
                   >
-                    {item?.user?.isBlocked == true ? "Active" : "Block"}
+                    Active
                   </button>
                   {/* <button onClick={() => route.push(`/needers/${item?.id}`)} className='px-4 py-1 hover:scale-105 transition-transform font-semibold rounded-lg bg-primary text-white'>View</button> */}
                 </td>
@@ -131,4 +131,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default UserTable2;
