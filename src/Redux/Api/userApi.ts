@@ -54,6 +54,17 @@ const userApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ["allCreators", "allUsers", "session"]
         }),
+
+        userBlockStatusUpdate : build.mutation({
+            query: (data) => {
+                return {
+                    url: `/bookings/unblock-user/${data?.id}`,
+                    method: "DELETE",
+                }
+            },
+            invalidatesTags: ["allCreators", "allUsers", "session"]
+        }),
+
         dashboardInfo: build.query({
             query: () => ({
                 url: `/admin/dashboard/all`,
@@ -65,4 +76,4 @@ const userApi = baseApi.injectEndpoints({
 })
 
 
-export const { useLoginUserMutation, useAllCreatorsQuery, useAllUsersQuery, useUserStatusUpdateMutation, useSingleUserQuery, useDashboardInfoQuery, useRegisterUserMutation } = userApi
+export const { useLoginUserMutation, useAllCreatorsQuery, useAllUsersQuery, useUserStatusUpdateMutation, useSingleUserQuery, useDashboardInfoQuery, useRegisterUserMutation, useUserBlockStatusUpdateMutation } = userApi

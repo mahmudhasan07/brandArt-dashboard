@@ -10,7 +10,7 @@ import Loader from "../Loader/Loader";
 import noface from "@/assests/no-face.png";
 import {
   useAllUsersQuery,
-  useUserStatusUpdateMutation,
+  useUserBlockStatusUpdateMutation,
 } from "@/Redux/Api/userApi";
 import { UserInterFace } from "@/Interfaces/InterFaces";
 import ShowToastify from "@/utils/ShowToastify";
@@ -41,16 +41,16 @@ const UserTable2 = () => {
 
   console.log("totalPages", totalPages);
 
-  const [updateStatus] = useUserStatusUpdateMutation();
+  const [updateStatus] = useUserBlockStatusUpdateMutation();
   const button = userData && [...Array(totalPages).keys()];
   const handleStatus = async (id: string) => {
     const { error } = await updateStatus({ id });
     if (error) {
       return ShowToastify({
-        error: "Unsuccessful to block or active the user",
+        error: "Unsuccessful to active the user",
       });
     }
-    ShowToastify({ success: "User status updated successfully" });
+    ShowToastify({ success: "User status active successfully" });
   };
 
   return (
@@ -98,7 +98,7 @@ const UserTable2 = () => {
                 <td className="px-4 text-nowrap py-2">{item?.user?.email}</td>
                 <td className="px-4 text-nowrap py-2 space-x-2">
                   <button
-                    onClick={() => handleStatus(item?.user.id)}
+                    onClick={() => handleStatus(item?.id)}
                     className="px-4 py-1 hover:scale-105 transition-transform font-semibold rounded-lg bg-primary text-white"
                   >
                     Active

@@ -47,10 +47,10 @@ const UserTable = () => {
     const { error } = await updateStatus({ id });
     if (error) {
       return ShowToastify({
-        error: "Unsuccessful to block or active the user",
+        error: "Unsuccessful to block the user",
       });
     }
-    ShowToastify({ success: "User status updated successfully" });
+    ShowToastify({ success: "User status block successfully" });
   };
 
   return (
