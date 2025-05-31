@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import logo from "@/assests/logo.png"
+import logo from "@/assests/logo2.jpg"
 import ReduxProvider from "@/Redux/ReduxProvider";
 // import ReduxProvider from "@/components/Redux/ReduxProvider";
 
@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Helper Dashboard",
+  title: "ZEN Dashboard",
   description: "The control panel for Fidden",
   icons: {
     icon: logo.src
