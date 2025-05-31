@@ -51,7 +51,7 @@ const LogIn = () => {
             }
             dispatch(setUser({ name: data?.data?.userName, role: data?.data?.role }))
             Cookies.set("accessToken", data?.data?.accessToken)
-            route.push("/")
+            route.push("/current-session")
         }
     }
 

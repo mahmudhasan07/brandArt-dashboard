@@ -48,8 +48,8 @@ const userApi = baseApi.injectEndpoints({
         userStatusUpdate: build.mutation({
             query: (data) => {
                 return {
-                    url: `/user/status/${data?.id}`,
-                    method: "PUT",
+                    url: `/bookings/block-user/${data?.id}`,
+                    method: "POST",
                 }
             },
             invalidatesTags: ["allCreators", "allUsers"]

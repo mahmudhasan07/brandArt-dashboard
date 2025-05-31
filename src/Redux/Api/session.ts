@@ -46,7 +46,15 @@ const session = baseApi.injectEndpoints({
             }),
             invalidatesTags : ['session']
         }),
+
+        myBookingUsers : build.query({
+            query: ({page, limit}) => ({
+                url: `/bookings/my-completed-bookings?page=${page}&limit=${limit}`,
+                method: 'GET'
+            }),
+            providesTags: ['session']
+        }),
     })
 })
 
-export const { useCurrentSessionQuery, useWaitingApprovalQuery, useNextQueueQuery, useCompletedAppointmentQuery, useCanceledAppointmentQuery, useApproveSessionMutation } = session
+export const { useCurrentSessionQuery, useWaitingApprovalQuery, useNextQueueQuery, useCompletedAppointmentQuery, useCanceledAppointmentQuery, useApproveSessionMutation, useMyBookingUsersQuery } = session
