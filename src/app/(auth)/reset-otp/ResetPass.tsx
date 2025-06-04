@@ -1,24 +1,20 @@
-"use client"
-import Image from "next/image";
-import Link from "next/link";
-import React, { FormEvent, useState } from "react";
-import { ToastContainer } from "react-toastify";
+'use client'
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { FormEvent, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import logo from "@/assests/logo2.jpg";
-import { useSearchParams } from "next/navigation";
-const VerifyOtp = () => {
-  const searchParams = useSearchParams();
+const ResetPass = () => {
+    const [submit, setSubmit] = useState();
 
-  console.log(searchParams.get("email"));
-  
 
-  const [submit, setSubmit] = useState("Submit");
+    const handleSubmit = async(e : FormEvent<HTMLFormElement>)=>{
+        e.preventDefault()
 
-  const handleOtp = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+    }
 
-  return (
-    <div className="flex items-center justify-center min-h-screen ">
+    return (
+        <div className="flex items-center justify-center min-h-screen ">
       <div className="w-full max-w-md p-6 ">
         <div className="flex flex-col items-center mb-6">
           <Image src={logo} alt="logo" className="mx-auto" width={150} />
@@ -35,7 +31,7 @@ const VerifyOtp = () => {
           </Link>
         </p>
 
-        <form onSubmit={handleOtp}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -60,7 +56,7 @@ const VerifyOtp = () => {
       </div>
       <ToastContainer />
     </div>
-  );
+    );
 };
 
-export default VerifyOtp;
+export default ResetPass;
