@@ -38,6 +38,21 @@ const ResetPass = () => {
               htmlFor="email"
               className="block text-base font-medium text-gray-700"
             >
+              Enter Password
+            </label>
+            <input
+              type="text"
+              name="password"
+              required
+              className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm  focus:border-primary"
+              placeholder="123456"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-base font-medium text-gray-700"
+            >
               Enter Otp
             </label>
             <input
