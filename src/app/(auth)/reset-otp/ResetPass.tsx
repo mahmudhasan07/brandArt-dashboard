@@ -5,10 +5,11 @@ import React, { FormEvent, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import logo from "@/assests/logo2.jpg";
 const ResetPass = () => {
-    const [submit, setSubmit] = useState();
+    const [submit, setSubmit] = useState("Submit");
 
 
     const handleSubmit = async(e : FormEvent<HTMLFormElement>)=>{
+        setSubmit("loading ...")
         e.preventDefault()
 
     }

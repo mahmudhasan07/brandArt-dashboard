@@ -14,6 +14,7 @@ const VerifyOtp = () => {
   const [submit, setSubmit] = useState("Submit");
 
   const handleOtp = async (e: FormEvent<HTMLFormElement>) => {
+    setSubmit("loading ...")
     e.preventDefault();
   };
 

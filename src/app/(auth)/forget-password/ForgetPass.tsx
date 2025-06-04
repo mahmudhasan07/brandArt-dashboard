@@ -9,6 +9,7 @@ const ForgetPass = () => {
     const [submit, setSubmit] = useState("Submit");
 
     const handleForget = async(e : FormEvent<HTMLFormElement>)=>{
+        setSubmit("loading ...")
         e.preventDefault()
 
     }
