@@ -7,7 +7,7 @@ import logo from "@/assests/logo2.jpg";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useResetPassMutation } from "@/Redux/Api/userApi";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ShowToastify from "@/utils/ShowToastify";
 
 const ResetPass = () => {
@@ -19,6 +19,7 @@ const ResetPass = () => {
   const [showConfirmPass, setShowConfirmPass] = useState("password");
   const [error, setError] = useState("");
   const [passwordFn] = useResetPassMutation();
+  const router = useRouter();
 
   useEffect(() => {
     if (confirmPassword && password !== confirmPassword) {
@@ -41,9 +42,8 @@ const ResetPass = () => {
     // Continue with submission
     setError("");
     console.log("Password reset submitted!");
-    const token = searchParams.get("token");
 
-    const { error } = await passwordFn({ token, password });
+    const { error } = await passwordFn({ newPassword: password });
     if (error) {
       setError(error.data.message);
       setSubmit("Submit");
@@ -52,6 +52,11 @@ const ResetPass = () => {
 
     ShowToastify({ success: "Password reset successfully" });
     setSubmit("Submit");
+    setPassword("");
+    setConfirmPassword("");
+    setShowPass("password");
+    setShowConfirmPass("password");
+    router.push("/login");
   };
 
   return (

@@ -85,7 +85,7 @@ const userApi = baseApi.injectEndpoints({
     resetPass: build.mutation({
       query: (data) => {
         return {
-          url: `/auth/resend-otp`,
+          url: `/auth/reset-password`,
           method: "POST",
           body: data,
         };
@@ -95,7 +95,7 @@ const userApi = baseApi.injectEndpoints({
     verifyOtp: build.mutation({
       query: (data) => {
         return {
-          url: `/auth/verify-otp`,
+          url: `/auth/verify-reset-password-otp`,
           method: "POST",
           body: data,
         };

@@ -21,16 +21,16 @@ const ForgetPass = () => {
 
     console.log(email);
 
-    const { error } = await forgetFn({ email });
+    const { data, error } = await forgetFn({ email });
     console.log(error);
 
-    if (error && 'data' in error && error.data) {
+    if (error && typeof error === 'object' && "data" in error && error.data && "message" in error.data) {
       ShowToastify({ error: error.data.message });
       return;
     }
     setSubmit("Submit");
     ShowToastify({ success: "Please check your email" });
-    router.push(`/verify-otp?email=${email}`);
+    router.push(`/verify-otp?email=${data?.data?.userId}`);
   };
 
   return (
