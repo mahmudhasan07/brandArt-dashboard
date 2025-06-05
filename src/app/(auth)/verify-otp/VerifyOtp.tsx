@@ -1,21 +1,38 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FormEvent, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import logo from "@/assests/logo2.jpg";
 import { useSearchParams } from "next/navigation";
+import { useVerifyOtpMutation } from "@/Redux/Api/userApi";
+import ShowToastify from "@/utils/ShowToastify";
 const VerifyOtp = () => {
   const searchParams = useSearchParams();
 
   console.log(searchParams.get("email"));
-  
+  const [OtpFn] = useVerifyOtpMutation();
 
   const [submit, setSubmit] = useState("Submit");
 
   const handleOtp = async (e: FormEvent<HTMLFormElement>) => {
-    setSubmit("loading ...")
+    setSubmit("loading ...");
     e.preventDefault();
+    const email = searchParams.get("email");
+
+    const otp = e.currentTarget.otp.value;
+
+    const verifyOtp = { email, otp };
+    console.log(verifyOtp);
+
+    const { data, error } = await OtpFn(verifyOtp);
+
+    if (error) {
+      ShowToastify({ error: error.data.message });
+      return;
+    }
+    ShowToastify({ success: "Your otp is valid" });
+    setSubmit("Submit");
   };
 
   return (

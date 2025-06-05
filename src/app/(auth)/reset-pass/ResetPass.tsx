@@ -1,22 +1,62 @@
-'use client'
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { FormEvent, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import React, { FormEvent, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import logo from "@/assests/logo2.jpg";
+import { IoEyeSharp } from "react-icons/io5";
+import { FaEyeSlash } from "react-icons/fa6";
+import { useResetPassMutation } from "@/Redux/Api/userApi";
+import { useSearchParams } from "next/navigation";
+import ShowToastify from "@/utils/ShowToastify";
+
 const ResetPass = () => {
-    const [submit, setSubmit] = useState("Submit");
+  const searchParams = useSearchParams();
+  const [submit, setSubmit] = useState("Submit");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPass, setShowPass] = useState("password");
+  const [showConfirmPass, setShowConfirmPass] = useState("password");
+  const [error, setError] = useState("");
+  const [passwordFn] = useResetPassMutation();
 
+  useEffect(() => {
+    if (confirmPassword && password !== confirmPassword) {
+      setError("Passwords do not match");
+    } else {
+      setError("");
+    }
+  }, [password, confirmPassword]);
 
-    const handleSubmit = async(e : FormEvent<HTMLFormElement>)=>{
-        setSubmit("loading ...")
-        e.preventDefault()
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmit("Loading ...");
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setSubmit("Submit");
+      return;
     }
 
-    return (
-        <div className="flex items-center justify-center min-h-screen ">
-      <div className="w-full max-w-md p-6 ">
+    // Continue with submission
+    setError("");
+    console.log("Password reset submitted!");
+    const token = searchParams.get("token");
+
+    const { error } = await passwordFn({ token, password });
+    if (error) {
+      setError(error.data.message);
+      setSubmit("Submit");
+      return;
+    }
+
+    ShowToastify({ success: "Password reset successfully" });
+    setSubmit("Submit");
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6">
         <div className="flex flex-col items-center mb-6">
           <Image src={logo} alt="logo" className="mx-auto" width={150} />
         </div>
@@ -33,46 +73,89 @@ const ResetPass = () => {
         </p>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-base font-medium text-gray-700"
-            >
+          <div className="mb-4 relative">
+            <label className="block text-base font-medium text-gray-700">
               Enter Password
             </label>
             <input
-              type="text"
+              type={showPass}
               name="password"
               required
-              className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm  focus:border-primary"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm focus:border-primary"
               placeholder="123456"
             />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-base font-medium text-gray-700"
-            >
-              Enter Otp
-            </label>
-            <input
-              type="number"
-              name="otp"
-              required
-              className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm  focus:border-primary"
-              placeholder="123456"
-            />
+            <div className="absolute top-10 text-xl right-3 cursor-pointer">
+              {showPass === "password" ? (
+                <IoEyeSharp
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setShowPass(showPass === "password" ? "text" : "password")
+                  }
+                />
+              ) : (
+                <FaEyeSlash
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setShowPass(showPass === "password" ? "text" : "password")
+                  }
+                />
+              )}
+            </div>
           </div>
 
-          <button className="w-full bg-gradient-to-r from-primary to-primary/90 py-2 text-lg font-semibold text-white rounded-lg">
+          <div className="mb-2 relative">
+            <label className="block text-base font-medium text-gray-700">
+              Confirm Password
+            </label>
+            <input
+              type={showConfirmPass}
+              name="confirmPassword"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="mt-1 block w-full px-4 py-2 border bg-[#FCFCFD] border-gray-300 focus:outline-double rounded-md shadow-sm focus:border-primary"
+              placeholder="123456"
+            />
+            <div className="absolute top-10 text-xl right-3 cursor-pointer">
+              {showConfirmPass === "password" ? (
+                <IoEyeSharp
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setShowConfirmPass(
+                      showPass === "password" ? "text" : "password"
+                    )
+                  }
+                />
+              ) : (
+                <FaEyeSlash
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setShowConfirmPass(
+                      showPass === "password" ? "text" : "password"
+                    )
+                  }
+                />
+              )}
+            </div>
+            {error && (
+              <span className="text-sm text-red-600 mt-1 block">{error}</span>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-primary to-primary/90 py-2 text-lg font-semibold text-white rounded-lg mt-4"
+            disabled={Boolean(error)}
+          >
             {submit}
           </button>
         </form>
-        {/* Register Link */}
       </div>
       <ToastContainer />
     </div>
-    );
+  );
 };
 
 export default ResetPass;
