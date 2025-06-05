@@ -7,7 +7,7 @@ import logo from "@/assests/logo2.jpg";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useVerifyOtpMutation } from "@/Redux/Api/userApi";
 import ShowToastify from "@/utils/ShowToastify";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 const VerifyOtp = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -29,13 +29,22 @@ const VerifyOtp = () => {
 
     const { data, error } = await OtpFn(verifyOtp);
 
-    if (error) {
-      ShowToastify({ error: error.data.message });
+    if (
+      error &&
+      typeof error === "object" &&
+      !Array.isArray(error) &&
+      error !== null &&
+      "data" in error &&
+      typeof error.data === "object" &&
+      error.data !== null &&
+      "message" in error.data
+    ) {
+      ShowToastify({ error: (error.data as any).message });
       return;
     }
     ShowToastify({ success: "Your otp is valid" });
     setSubmit("Submit");
-    Cookies.set("accessToken", data?.data?.accessToken)
+    Cookies.set("accessToken", data?.data?.accessToken);
     router.push(`/reset-pass`);
   };
 

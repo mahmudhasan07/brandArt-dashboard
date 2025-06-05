@@ -44,8 +44,17 @@ const ResetPass = () => {
     console.log("Password reset submitted!");
 
     const { error } = await passwordFn({ newPassword: password });
-    if (error) {
-      setError(error.data.message);
+    if (
+      error &&
+      typeof error === "object" &&
+      !Array.isArray(error) &&
+      error !== null &&
+      "data" in error &&
+      typeof error.data === "object" &&
+      error.data !== null &&
+      "message" in error.data
+    ) {
+      ShowToastify({ error: (error.data as any).message });
       setSubmit("Submit");
       return;
     }

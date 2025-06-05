@@ -24,8 +24,17 @@ const ForgetPass = () => {
     const { data, error } = await forgetFn({ email });
     console.log(error);
 
-    if (error && typeof error === 'object' && "data" in error && error.data && "message" in error.data) {
-      ShowToastify({ error: error.data.message });
+    if (
+      error &&
+      typeof error === "object" &&
+      !Array.isArray(error) &&
+      error !== null &&
+      "data" in error &&
+      typeof error.data === "object" &&
+      error.data !== null &&
+      "message" in error.data
+    ) {
+      ShowToastify({ error: (error.data as any).message });
       return;
     }
     setSubmit("Submit");
