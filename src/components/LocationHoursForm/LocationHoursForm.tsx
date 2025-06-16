@@ -13,9 +13,7 @@ export default function LocationHoursForm() {
     const [startTime, setStartTime] = useState<Date | null>(new Date());
     const [endTime, setEndTime] = useState<Date | null>(new Date());
     const [location, setLocation] = useState('410 W Main St, Cortez, CO 81321, United States');
-    const { lat, lng } = useGeoLocation()
     //  const {lat,lng} = useGetLatLngFromPlace("South Manda Jheelapar Road Dhaka, Bangladesh")
-    console.log(lat, lng);
 
 
     const [addLocationFn] = useAddLocationMutation();
@@ -26,9 +24,7 @@ export default function LocationHoursForm() {
             endDate: endDate ? endDate.toDateString() : 'Invalid Date',
             startTime: startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : 'Invalid Time',
             endTime: endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : 'Invalid Time',
-            location,
-            latitude: lat,
-            longitude: lng,
+            location
         };
         console.log(output);
 

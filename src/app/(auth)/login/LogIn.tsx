@@ -69,9 +69,9 @@ const LogIn = () => {
                 </div>
 
                 <h2 className="text-4xl text-center my-4">Hi, Welcome Back! 👋</h2>
-                <p className="text-center text-gray-600 mb-8">
+                {/* <p className="text-center text-gray-600 mb-8">
                     If you don't have an account, <Link href={'/register'} className="font-semibold text-primary text-lg">Register Here</Link>
-                </p>
+                </p> */}
 
                 <form onSubmit={handleLogin}>
                     <div className="mb-4">
