@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 
 export default function AddService() {
   const [serviceType, setServiceType] = useState('Message');
-  const [membership, setMembership] = useState('Non-Member');
+  const [membership, setMembership] = useState('Non_Members');
   const [offering, setOffering] = useState('');
   const [additionalOffering, setAdditionalOffering] = useState('');
   const [duration, setDuration] = useState('30 Minute');
