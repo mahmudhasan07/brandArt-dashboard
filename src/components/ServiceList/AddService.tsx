@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 export default function AddService() {
-  const [serviceType, setServiceType] = useState('Message');
+  const [serviceType, setServiceType] = useState('Massage');
   const [membership, setMembership] = useState('Non_Members');
   const [offering, setOffering] = useState('');
   const [additionalOffering, setAdditionalOffering] = useState('');
@@ -45,7 +45,7 @@ export default function AddService() {
             onChange={(e) => setServiceType(e.target.value)}
             className="w-full border p-2 rounded-lg"
           >
-            <option value="Message">Message</option>
+            <option value="Massage">Massage</option>
             <option value="Stretch">Stretch</option>
           </select>
         </div>
