@@ -4,7 +4,7 @@ import ShowToastify from "@/utils/ShowToastify";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
-export default function UpdateService() {
+export default function UpdateServices() {
   const [serviceType, setServiceType] = useState("Massage");
   const [membership, setMembership] = useState("Non_Members");
   const [offering, setOffering] = useState("");
