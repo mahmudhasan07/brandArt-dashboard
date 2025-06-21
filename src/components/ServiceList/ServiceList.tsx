@@ -3,6 +3,8 @@
 import { useAllServicesQuery } from '@/Redux/Api/serviceApi';
 import React, { useState } from 'react';
 import AddService from './AddService';
+import { CiEdit } from "react-icons/ci";
+
 
 interface ConnectedService {
     id: string;
@@ -97,6 +99,7 @@ export default function ServiceList() {
                             <div className="mt-4 space-y-2">
                                 {service.ConnectedService.map((detail) => (
                                     <div key={detail.id} className="border-t pt-2">
+                                        <button className='flex justify-end w-full text-xl'><CiEdit /></button>
                                         <p className="font-medium">{detail.type.replace('_', ' ')}</p>
                                         <p>Offer: {detail.offer}</p>
                                         <p>Duration: {detail.duration}</p>
@@ -110,6 +113,16 @@ export default function ServiceList() {
                 ))}
             </div>
 
+            <dialog className='backdrop-blur-[2px] bg-black/30 h-screen top-0 w-full' open={Modal}>
+                <div className='bg-white text-black  rounded-xl border-2 w-fit mx-auto top-[10%] p-5 relative '>
+                    <div className='text-lg font-extrabold text-end mt-5 mr-5'>
+                        <button onClick={() => setModal(!Modal)}>X</button>
+                    </div>
+                    {/* <UpdateSubscription id={id} /> */}
+                    {/* <LocationHoursForm></LocationHoursForm> */}
+                    <AddService></AddService>
+                </div>
+            </dialog>
             <dialog className='backdrop-blur-[2px] bg-black/30 h-screen top-0 w-full' open={Modal}>
                 <div className='bg-white text-black  rounded-xl border-2 w-fit mx-auto top-[10%] p-5 relative '>
                     <div className='text-lg font-extrabold text-end mt-5 mr-5'>
