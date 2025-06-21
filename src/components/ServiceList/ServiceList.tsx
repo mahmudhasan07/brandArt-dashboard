@@ -64,6 +64,7 @@ export default function ServiceList() {
     null
   );
   const [Modal, setModal] = useState<boolean>(false);
+  const [serviceId, setServiceId] = useState("");
   const [Modal1, setModal1] = useState<boolean>(false);
 
   const { result: serviceData, loading } = useAllServicesQuery("", {
@@ -149,7 +150,7 @@ export default function ServiceList() {
       </dialog>
       <dialog
         className="backdrop-blur-[2px] bg-black/30 h-screen top-0 w-full"
-        open={Modal}
+        open={Modal1}
       >
         <div className="bg-white text-black  rounded-xl border-2 w-fit mx-auto top-[10%] p-5 relative ">
           <div className="text-lg font-extrabold text-end mt-5 mr-5">
@@ -157,7 +158,7 @@ export default function ServiceList() {
           </div>
           {/* <UpdateSubscription id={id} /> */}
           {/* <LocationHoursForm></LocationHoursForm> */}
-          <UpdateServices></UpdateServices>
+          <UpdateServices serviceId={serviceId}></UpdateServices>
         </div>
       </dialog>
     </section>

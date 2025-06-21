@@ -4,8 +4,8 @@ import ShowToastify from "@/utils/ShowToastify";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
-export default function UpdateServices() {
-  const [serviceType, setServiceType] = useState("Massage");
+export default function UpdateServices(serviceId: any) {
+  // const [serviceType, setServiceType] = useState("Massage");
   const [membership, setMembership] = useState("Non_Members");
   const [offering, setOffering] = useState("");
   const [additionalOffering, setAdditionalOffering] = useState("");
@@ -16,7 +16,7 @@ export default function UpdateServices() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newOffering = {
-      title: serviceType,
+      // title: serviceType,
       type: membership,
       offer: offering,
       additionalOffer: additionalOffering,
@@ -37,7 +37,7 @@ export default function UpdateServices() {
 
       <form onSubmit={handleSubmit}>
         {/* Service Type Dropdown */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label
             htmlFor="serviceType"
             className="block text-sm font-medium mb-1"
@@ -53,7 +53,7 @@ export default function UpdateServices() {
             <option value="Massage">Massage</option>
             <option value="Stretch">Stretch</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Membership Dropdown */}
         <div className="mb-4">
