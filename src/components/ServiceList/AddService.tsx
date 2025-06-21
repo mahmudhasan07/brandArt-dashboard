@@ -1,17 +1,17 @@
-'use client';
-import { useAddServiceMutation } from '@/Redux/Api/serviceApi';
-import ShowToastify from '@/utils/ShowToastify';
-import React, { useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+"use client";
+import { useAddServiceMutation } from "@/Redux/Api/serviceApi";
+import ShowToastify from "@/utils/ShowToastify";
+import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 export default function AddService() {
-  const [serviceType, setServiceType] = useState('Massage');
-  const [membership, setMembership] = useState('Non_Members');
-  const [offering, setOffering] = useState('');
-  const [additionalOffering, setAdditionalOffering] = useState('');
-  const [duration, setDuration] = useState('30 Minute');
+  const [serviceType, setServiceType] = useState("Massage");
+  const [membership, setMembership] = useState("Non_Members");
+  const [offering, setOffering] = useState("");
+  const [additionalOffering, setAdditionalOffering] = useState("");
+  const [duration, setDuration] = useState("30 Minute");
   const [price, setPrice] = useState(0);
-  const [addServiceFn] = useAddServiceMutation()
+  const [addServiceFn] = useAddServiceMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,16 +19,16 @@ export default function AddService() {
       title: serviceType,
       type: membership,
       offer: offering,
-      additionalOffer:additionalOffering,
+      additionalOffer: additionalOffering,
       duration,
       price,
     };
-    const { data, error } = await addServiceFn(newOffering)
-    if (error && 'data' in error) {
+    const { data, error } = await addServiceFn(newOffering);
+    if (error && "data" in error) {
       ShowToastify({ error: (error.data as { message: string }).message });
       return;
     }
-    ShowToastify({ success: "Offering added successfully" })
+    ShowToastify({ success: "Offering added successfully" });
   };
 
   return (
@@ -38,7 +38,12 @@ export default function AddService() {
       <form onSubmit={handleSubmit}>
         {/* Service Type Dropdown */}
         <div className="mb-4">
-          <label htmlFor="serviceType" className="block text-sm font-medium mb-1">Service Type</label>
+          <label
+            htmlFor="serviceType"
+            className="block text-sm font-medium mb-1"
+          >
+            Service Type
+          </label>
           <select
             id="serviceType"
             value={serviceType}
@@ -52,7 +57,12 @@ export default function AddService() {
 
         {/* Membership Dropdown */}
         <div className="mb-4">
-          <label htmlFor="membership" className="block text-sm font-medium mb-1">Membership</label>
+          <label
+            htmlFor="membership"
+            className="block text-sm font-medium mb-1"
+          >
+            Membership
+          </label>
           <select
             id="membership"
             value={membership}
@@ -66,7 +76,9 @@ export default function AddService() {
 
         {/* Offering Description */}
         <div className="mb-4">
-          <label htmlFor="offering" className="block text-sm font-medium mb-1">What are you offering?</label>
+          <label htmlFor="offering" className="block text-sm font-medium mb-1">
+            What are you offering?
+          </label>
           <input
             type="text"
             id="offering"
@@ -79,7 +91,12 @@ export default function AddService() {
 
         {/* Additional Offering */}
         <div className="mb-4">
-          <label htmlFor="additionalOffering" className="block text-sm font-medium mb-1">Additional Offering</label>
+          <label
+            htmlFor="additionalOffering"
+            className="block text-sm font-medium mb-1"
+          >
+            Additional Offering
+          </label>
           <input
             type="text"
             id="additionalOffering"
@@ -92,7 +109,9 @@ export default function AddService() {
 
         {/* Duration */}
         <div className="mb-4">
-          <label htmlFor="duration" className="block text-sm font-medium mb-1">Duration</label>
+          <label htmlFor="duration" className="block text-sm font-medium mb-1">
+            Duration
+          </label>
           <select
             id="duration"
             value={duration}
@@ -107,7 +126,9 @@ export default function AddService() {
 
         {/* Price */}
         <div className="mb-4">
-          <label htmlFor="price" className="block text-sm font-medium mb-1">Price</label>
+          <label htmlFor="price" className="block text-sm font-medium mb-1">
+            Price
+          </label>
           <input
             type="number"
             id="price"
