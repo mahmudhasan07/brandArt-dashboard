@@ -33,9 +33,9 @@ export default function UpdateServices(serviceId: any) {
     setSubmit("loading ...");
     const newOffering = {
       // title: serviceType,
-      type: !loading && ServiceData?.type || membership,
-      offer: !loading && ServiceData?.offer || offering,
-      additionalOffer: !loading && ServiceData?.additionalOffer || additionalOffering,
+      type:  membership || ServiceData?.type ,
+      offer:   offering || ServiceData?.offer,
+      additionalOffer:  additionalOffering || ServiceData?.additionalOffer ,
       duration,
       price,
     };
