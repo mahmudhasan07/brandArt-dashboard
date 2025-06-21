@@ -78,6 +78,14 @@ export default function ServiceList() {
     setExpandedServiceId(expandedServiceId === id ? null : id);
   };
 
+  const handleButton = (id: string) => {    
+    console.log(id, "id asse");
+    setServiceId(id);
+    
+    setModal1(true);
+
+  };
+
   return (
     <section>
       <div className="flex justify-between items-center m-10">
@@ -113,7 +121,10 @@ export default function ServiceList() {
               <div className="mt-4 space-y-2">
                 {service.ConnectedService.map((detail) => (
                   <div key={detail.id} className="border-t pt-2">
-                    <button onClick={() => setModal1(true)} className="flex justify-end w-full text-xl">
+                    <button
+                      onClick={() => handleButton(detail.id)}
+                      className="flex justify-end w-full text-xl"
+                    >
                       <CiEdit />
                     </button>
                     <p className="font-medium">

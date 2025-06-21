@@ -1,5 +1,8 @@
 "use client";
-import { useAddServiceMutation } from "@/Redux/Api/serviceApi";
+import {
+  useGetServiceByIdQuery,
+  useUpdateServiceMutation,
+} from "@/Redux/Api/serviceApi";
 import ShowToastify from "@/utils/ShowToastify";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
@@ -11,24 +14,41 @@ export default function UpdateServices(serviceId: any) {
   const [additionalOffering, setAdditionalOffering] = useState("");
   const [duration, setDuration] = useState("30 Minute");
   const [price, setPrice] = useState(0);
-  const [addServiceFn] = useAddServiceMutation();
+  const [submit, setSubmit] = useState("Submit");
+  const [updateServiceFn] = useUpdateServiceMutation();
+
+  console.log(serviceId, "serviceId");
+
+  const { ServiceData, loading } = useGetServiceByIdQuery(serviceId.serviceId, {
+    selectFromResult: ({ data, isLoading }) => ({
+      ServiceData: data?.data,
+      loading: isLoading,
+    }),
+  });
+
+  console.log(ServiceData);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmit("loading ...");
     const newOffering = {
       // title: serviceType,
-      type: membership,
-      offer: offering,
-      additionalOffer: additionalOffering,
+      type: !loading && ServiceData?.type || membership,
+      offer: !loading && ServiceData?.offer || offering,
+      additionalOffer: !loading && ServiceData?.additionalOffer || additionalOffering,
       duration,
       price,
     };
-    const { data, error } = await addServiceFn(newOffering);
+    const { data, error } = await updateServiceFn({
+      data: newOffering,
+      id: serviceId.serviceId,
+    });
     if (error && "data" in error) {
       ShowToastify({ error: (error.data as { message: string }).message });
       return;
     }
-    ShowToastify({ success: "Offering added successfully" });
+    setSubmit("Submit");
+    ShowToastify({ success: "Offering updated successfully" });
   };
 
   return (
@@ -66,6 +86,7 @@ export default function UpdateServices(serviceId: any) {
           <select
             id="membership"
             value={membership}
+            defaultValue={loading ? "" : ServiceData?.type}
             onChange={(e) => setMembership(e.target.value)}
             className="w-full border p-2 rounded-lg"
           >
@@ -83,6 +104,7 @@ export default function UpdateServices(serviceId: any) {
             type="text"
             id="offering"
             value={offering}
+            defaultValue={loading ? "" : ServiceData?.additionalOffer}
             onChange={(e) => setOffering(e.target.value)}
             placeholder="Your offerings"
             className="w-full border p-2 rounded-lg"
@@ -101,6 +123,7 @@ export default function UpdateServices(serviceId: any) {
             type="text"
             id="additionalOffering"
             value={additionalOffering}
+            defaultValue={loading ? "" : ServiceData?.additionalOffer}
             onChange={(e) => setAdditionalOffering(e.target.value)}
             placeholder="Additional offering"
             className="w-full border p-2 rounded-lg"
@@ -115,6 +138,7 @@ export default function UpdateServices(serviceId: any) {
           <select
             id="duration"
             value={duration}
+            defaultValue={loading ? "" : ServiceData?.duration}
             onChange={(e) => setDuration(e.target.value)}
             className="w-full border p-2 rounded-lg"
           >
@@ -133,6 +157,7 @@ export default function UpdateServices(serviceId: any) {
             type="number"
             id="price"
             value={price}
+            defaultValue={loading ? "" : ServiceData?.price}
             onChange={(e) => setPrice(parseFloat(e.target.value))}
             placeholder="Price of your offering"
             className="w-full border p-2 rounded-lg"
