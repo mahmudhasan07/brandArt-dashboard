@@ -108,7 +108,9 @@ export default function ServiceList() {
         </button>
       </div>
       <div className="flex gap-5 mx-10 ">
-        {serviceData?.map((service: ServiceData) => (
+        {serviceData
+          ?.filter((service: ServiceData) => service.ConnectedService.length > 0)
+        ?.map((service: ServiceData) => (
           <div
             key={service.id}
             className="border p-4 rounded-lg shadow-md w-72 h-fit"
@@ -131,17 +133,17 @@ export default function ServiceList() {
               <div className="mt-4 space-y-2">
                 {service.ConnectedService.map((detail) => (
                   <div key={detail.id} className="border-t pt-2">
-                    <div>
+                    <div className="flex gap-4 justify-end">
                       <button
                         onClick={() => handleButton(detail.id)}
-                        className="flex justify-end w-full text-xl"
+                        className="flex justify-end  text-xl"
                       >
                         <CiEdit />
                       </button>
 
                       <button
                         onClick={() => handleDelete(detail.id)}
-                        className="flex justify-end w-full text-xl"
+                        className="flex justify-end  text-xl"
                       >
                         <MdDeleteForever />
                       </button>
