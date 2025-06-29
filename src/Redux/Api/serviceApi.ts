@@ -27,7 +27,7 @@ const serviceApi = baseApi.injectEndpoints({
     }),
     deleteService: build.mutation({
       query: (id) => ({
-        url: `/services/${id}`,
+        url: `/delete-services/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["service"],

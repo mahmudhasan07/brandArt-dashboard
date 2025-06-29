@@ -1,9 +1,12 @@
 "use client";
-import { useAllServicesQuery } from "@/Redux/Api/serviceApi";
+import { useAllServicesQuery, useDeleteServiceMutation } from "@/Redux/Api/serviceApi";
 import React, { useState } from "react";
 import AddService from "./AddService";
 import { CiEdit } from "react-icons/ci";
 import UpdateServices from "./UpdateService";
+import { MdDeleteForever } from "react-icons/md";
+import ShowToastify from "@/utils/ShowToastify";
+import { ToastContainer } from "react-toastify";
 
 interface ConnectedService {
   id: string;
@@ -66,6 +69,7 @@ export default function ServiceList() {
   const [Modal, setModal] = useState<boolean>(false);
   const [serviceId, setServiceId] = useState("");
   const [Modal1, setModal1] = useState<boolean>(false);
+  const [deleteServiceFn] = useDeleteServiceMutation()
 
   const { result: serviceData, loading } = useAllServicesQuery("", {
     selectFromResult: ({ data, isLoading }) => ({
@@ -78,12 +82,18 @@ export default function ServiceList() {
     setExpandedServiceId(expandedServiceId === id ? null : id);
   };
 
-  const handleButton = (id: string) => {    
-    console.log(id, "id asse");
+  const handleButton = (id: string) => {
     setServiceId(id);
-    
     setModal1(true);
+  };
 
+  const handleDelete = async (id: string) => {
+    const {error } = await deleteServiceFn(id )
+    if (error) {
+        ShowToastify({ error: "Unsuccessful to delete the service" })
+        return
+    }
+    ShowToastify({ success: "Service deleted successfully" })
   };
 
   return (
@@ -121,12 +131,21 @@ export default function ServiceList() {
               <div className="mt-4 space-y-2">
                 {service.ConnectedService.map((detail) => (
                   <div key={detail.id} className="border-t pt-2">
-                    <button
-                      onClick={() => handleButton(detail.id)}
-                      className="flex justify-end w-full text-xl"
-                    >
-                      <CiEdit />
-                    </button>
+                    <div>
+                      <button
+                        onClick={() => handleButton(detail.id)}
+                        className="flex justify-end w-full text-xl"
+                      >
+                        <CiEdit />
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(detail.id)}
+                        className="flex justify-end w-full text-xl"
+                      >
+                        <MdDeleteForever />
+                      </button>
+                    </div>
                     <p className="font-medium">
                       {detail.type.replace("_", " ")}
                     </p>
@@ -172,6 +191,7 @@ export default function ServiceList() {
           <UpdateServices serviceId={serviceId}></UpdateServices>
         </div>
       </dialog>
+      <ToastContainer></ToastContainer>
     </section>
   );
 }

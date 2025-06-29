@@ -5,16 +5,18 @@ import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 export default function AddService() {
-  const [serviceType, setServiceType] = useState("Massage");
+  const [serviceType, setServiceType] = useState("");
   const [membership, setMembership] = useState("Non_Members");
   const [offering, setOffering] = useState("");
   const [additionalOffering, setAdditionalOffering] = useState("");
   const [duration, setDuration] = useState("30 Minute");
   const [price, setPrice] = useState(0);
+  const [submit, setSubmit] = useState("Submit");
   const [addServiceFn] = useAddServiceMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmit("loading");
     const newOffering = {
       title: serviceType,
       type: membership,
@@ -26,8 +28,10 @@ export default function AddService() {
     const { data, error } = await addServiceFn(newOffering);
     if (error && "data" in error) {
       ShowToastify({ error: (error.data as { message: string }).message });
+      setSubmit("Submit");
       return;
     }
+    setSubmit("Submit");
     ShowToastify({ success: "Offering added successfully" });
   };
 
@@ -44,7 +48,7 @@ export default function AddService() {
           >
             Service Type
           </label>
-          <select
+          {/* <select
             id="serviceType"
             value={serviceType}
             onChange={(e) => setServiceType(e.target.value)}
@@ -52,7 +56,16 @@ export default function AddService() {
           >
             <option value="Massage">Massage</option>
             <option value="Stretch">Stretch</option>
-          </select>
+          </select> */}
+
+          <input
+            type="text"
+            id="serviceType"
+            value={serviceType}
+            onChange={(e) => setServiceType(e.target.value)}
+            placeholder="Your Service Type"
+            className="w-full border p-2 rounded-lg"
+          />
         </div>
 
         {/* Membership Dropdown */}
@@ -141,9 +154,10 @@ export default function AddService() {
 
         <button
           type="submit"
+          disabled={submit == "loading"}
           className="w-full bg-indigo-500 text-white py-2 rounded-lg hover:opacity-90 transition"
         >
-          Submit
+          {submit}
         </button>
       </form>
       <ToastContainer></ToastContainer>
