@@ -1,5 +1,9 @@
 "use client";
-import { useAllServicesQuery, useDeleteServiceMutation } from "@/Redux/Api/serviceApi";
+import {
+  useAllServicesQuery,
+  useDeleteRootServiceMutation,
+  useDeleteServiceMutation,
+} from "@/Redux/Api/serviceApi";
 import React, { useState } from "react";
 import AddService from "./AddService";
 import { CiEdit } from "react-icons/ci";
@@ -69,7 +73,8 @@ export default function ServiceList() {
   const [Modal, setModal] = useState<boolean>(false);
   const [serviceId, setServiceId] = useState("");
   const [Modal1, setModal1] = useState<boolean>(false);
-  const [deleteServiceFn] = useDeleteServiceMutation()
+  const [deleteServiceFn] = useDeleteServiceMutation();
+  const [deleteRootServiceFn] = useDeleteRootServiceMutation();
 
   const { result: serviceData, loading } = useAllServicesQuery("", {
     selectFromResult: ({ data, isLoading }) => ({
@@ -88,12 +93,20 @@ export default function ServiceList() {
   };
 
   const handleDelete = async (id: string) => {
-    const {error } = await deleteServiceFn(id )
+    const { error } = await deleteServiceFn(id);
     if (error) {
-        ShowToastify({ error: "Unsuccessful to delete the service" })
-        return
+      ShowToastify({ error: "Unsuccessful to delete the service" });
+      return;
     }
-    ShowToastify({ success: "Service deleted successfully" })
+    ShowToastify({ success: "Service deleted successfully" });
+  };
+  const handleServiceDelete = async (id: string) => {
+    const { error } = await deleteRootServiceFn(id);
+    if (error) {
+      ShowToastify({ error: "Unsuccessful to delete the service" });
+      return;
+    }
+    ShowToastify({ success: "Service deleted successfully" });
   };
 
   return (
@@ -107,64 +120,72 @@ export default function ServiceList() {
           Add Service +
         </button>
       </div>
-      <div className="flex gap-5 mx-10 ">
+      <div className="flex gap-5 mx-10 flex-wrap">
         {serviceData
-          ?.filter((service: ServiceData) => service.ConnectedService.length > 0)
-        ?.map((service: ServiceData) => (
-          <div
-            key={service.id}
-            className="border p-4 rounded-lg shadow-md w-72 h-fit"
-          >
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">{service.title}</h3>
-              <button
-                onClick={() => toggleExpand(service.id)}
-                className="px-3 py-1 bg-indigo-500 text-white rounded-full"
-              >
-                {expandedServiceId === service.id ? "-" : "+"}
-              </button>
-            </div>
-            <p className="text-gray-500">
-              {service.ConnectedService.length} service
-              {service.ConnectedService.length > 1 ? "s" : ""} available
-            </p>
-
-            {expandedServiceId === service.id && (
-              <div className="mt-4 space-y-2">
-                {service.ConnectedService.map((detail) => (
-                  <div key={detail.id} className="border-t pt-2">
-                    <div className="flex gap-4 justify-end">
-                      <button
-                        onClick={() => handleButton(detail.id)}
-                        className="flex justify-end  text-xl"
-                      >
-                        <CiEdit />
-                      </button>
-
-                      <button
-                        onClick={() => handleDelete(detail.id)}
-                        className="flex justify-end  text-xl"
-                      >
-                        <MdDeleteForever />
-                      </button>
-                    </div>
-                    <p className="font-medium">
-                      {detail.type.replace("_", " ")}
-                    </p>
-                    <p>Offer: {detail.offer}</p>
-                    <p>Duration: {detail.duration}</p>
-                    <p>Price: ${detail.price.toFixed(2)}</p>
-                    {detail.additionalOffer && (
-                      <p className="text-gray-600">
-                        Additional Offer: {detail.additionalOffer}
-                      </p>
-                    )}
-                  </div>
-                ))}
+          // ?.filter((service: ServiceData) => service.ConnectedService.length > 0)
+          ?.map((service: ServiceData) => (
+            <div
+              key={service.id}
+              className="border p-4 rounded-lg shadow-md w-96  h-fit"
+            >
+              <div className="flex justify-between gap-5 items-center">
+                <h3 className="text-lg font-semibold">{service.title}</h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleServiceDelete(service.id)}
+                    className="flex justify-end  text-2xl my-auto"
+                  >
+                    <MdDeleteForever />
+                  </button>
+                  <button
+                    onClick={() => toggleExpand(service.id)}
+                    className="px-3 py-1 bg-indigo-500 text-white rounded-full"
+                  >
+                    {expandedServiceId === service.id ? "-" : "+"}
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+              <p className="text-gray-500">
+                {service.ConnectedService.length} service
+                {service.ConnectedService.length > 1 ? "s" : ""} available
+              </p>
+
+              {expandedServiceId === service.id && (
+                <div className="mt-4 space-y-2">
+                  {service.ConnectedService.map((detail) => (
+                    <div key={detail.id} className="border-t pt-2">
+                      <div className="flex gap-4 justify-end">
+                        <button
+                          onClick={() => handleButton(detail.id)}
+                          className="flex justify-end  text-xl"
+                        >
+                          <CiEdit />
+                        </button>
+
+                        <button
+                          onClick={() => handleDelete(detail.id)}
+                          className="flex justify-end  text-xl"
+                        >
+                          <MdDeleteForever />
+                        </button>
+                      </div>
+                      <p className="font-medium">
+                        {detail.type.replace("_", " ")}
+                      </p>
+                      <p>Offer: {detail.offer}</p>
+                      <p>Duration: {detail.duration}</p>
+                      <p>Price: ${detail.price.toFixed(2)}</p>
+                      {detail.additionalOffer && (
+                        <p className="text-gray-600">
+                          Additional Offer: {detail.additionalOffer}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
       </div>
 
       <dialog
