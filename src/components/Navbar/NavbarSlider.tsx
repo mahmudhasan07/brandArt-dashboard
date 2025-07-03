@@ -99,9 +99,7 @@ const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
       >
         {/* Logo */}
         {isOpen && (
-          <Link href="/" className="flex justify-center mb-6">
-            <Image width={20} height={20} className="w-24 mt-14" src={logo} alt="logo_image" />
-          </Link>
+           <Image width={20} height={20} className="w-24 mt-14" src={logo} alt="logo_image" />
         )}
 
         <div className={`flex flex-col justify-between  h-screen pb-11 ${isOpen ? "pt-0" : 'pt-14'}`}>
