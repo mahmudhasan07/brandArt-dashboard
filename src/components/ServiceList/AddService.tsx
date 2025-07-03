@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 export default function AddService() {
   const [serviceType, setServiceType] = useState("");
   const [membership, setMembership] = useState("Non_Members");
-  const [offering, setOffering] = useState("");
+  // const [offering, setOffering] = useState("");
   const [additionalOffering, setAdditionalOffering] = useState("");
   const [duration, setDuration] = useState("30 Minute");
   const [price, setPrice] = useState(0);
@@ -20,7 +20,7 @@ export default function AddService() {
     const newOffering = {
       title: serviceType,
       type: membership,
-      offer: offering,
+      // offer: offering,
       additionalOffer: additionalOffering,
       duration,
       price,
@@ -88,7 +88,7 @@ export default function AddService() {
         </div>
 
         {/* Offering Description */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label htmlFor="offering" className="block text-sm font-medium mb-1">
             What are you offering?
           </label>
@@ -100,7 +100,7 @@ export default function AddService() {
             placeholder="Your offerings"
             className="w-full border p-2 rounded-lg"
           />
-        </div>
+        </div> */}
 
         {/* Additional Offering */}
         <div className="mb-4">
