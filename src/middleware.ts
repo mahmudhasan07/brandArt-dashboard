@@ -1,11 +1,10 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyJwt } from "./utils/verifyJwt"; // Path may need adjusting
-
-export async function middleware(request: NextRequest) {
+import { jwtDecode } from "jwt-decode";
+export function middleware(request: NextRequest) {
+  // const loginRoute = `${request.nextUrl.origin}/login`;
   const homeRoute = `${request.nextUrl.origin}/login`;
-
+  // const dashboardRoute = `${request.nextUrl.origin}/dashboard`;
   const adminRoutes = [
     "/",
     "/location-hour",
@@ -20,31 +19,32 @@ export async function middleware(request: NextRequest) {
 
   const token = request.cookies.get("accessToken")?.value;
 
+  console.log(token);
+
   if (!token) {
     return NextResponse.redirect(new URL(homeRoute, request.url));
   }
+  const userInfo = jwtDecode(token as string);
 
-  try {
-    const user = await verifyJwt(
-      token,
-      "1328ee71f68f8ad5bae374807d06632f1fa43a29ee9682cc64210777eeb88119"
-    );
-
-    const currentPath = request.nextUrl.pathname;
-
-    // Block access to ADMIN-only pages if user is not ADMIN
-    if (
-      user.role !== "ADMIN" &&
-      adminRoutes.some((route) => currentPath.startsWith(route))
-    ) {
-      return NextResponse.redirect(new URL(homeRoute, request.url));
-    }
-
-    return NextResponse.next(); // Valid token and access allowed
-  } catch (error) {
-    console.error("JWT validation error:", error);
+  const currentPath = request.nextUrl.pathname;
+  const currentTime = Math.floor(Date.now() / 1000);
+  if (userInfo.exp && userInfo.exp < currentTime) {
+    console.warn("Token has expired");
     return NextResponse.redirect(new URL(homeRoute, request.url));
   }
+
+  // // Redirect based on role and route
+  if (
+    "role" in userInfo &&
+    userInfo?.role !== "ADMIN" &&
+    adminRoutes.some((e) => currentPath.startsWith(e))
+  ) {
+    // Prevent ADMIN from accessing /services
+    return NextResponse.redirect(new URL(homeRoute, request.url));
+  }
+
+  // // Allow the request to proceed if the token exists
+  return NextResponse.next();
 }
 
 export const config = {
@@ -58,5 +58,5 @@ export const config = {
     "/next-queue",
     "/completed-appointment",
     "/canceled-appointment",
-  ],
+  ], // Apply middleware to the /services route
 };
