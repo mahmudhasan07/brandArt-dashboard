@@ -27,5 +27,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/"], // Apply middleware to the /services route
+  matcher: ["/", "/location-hour","/offered-service", "/client-management","/current-session","/waiting-approval","/next-queue","/completed-appointment","/canceled-appointment" ], // Apply middleware to the /services route
 };
