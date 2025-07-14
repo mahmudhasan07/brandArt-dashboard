@@ -55,8 +55,8 @@ const CurrentSession = () => {
                                         <td className="px-4 py-2">{item?.user?.userName}</td>
                                         <td className="px-4 py-2">{item?.user?.email}</td>
                                         <td className="px-4 py-2">{item?.createdAt.split("T")[0]}</td>
-                                        <td className="px-4 py-2">{item?.connectedServices[0].connectedService.offer}</td>
-                                        <td className="px-4 py-2 flex justify-center border"><button onClick={() => handleComplete(item.id)} className='p-2 bg-primary text-white font-semibold rounded-lg mx-auto w-fit'>Completed</button></td>
+                                        <td className="px-4 py-2">{item?.connectedServices[0].connectedService.service.title}</td>
+                                        <td className="px-4 py-2 flex justify-center "><button onClick={() => handleComplete(item.id)} className='p-2 bg-primary text-white font-semibold rounded-lg mx-auto w-fit'>Completed</button></td>
                                     </tr>
                                 ))
 
