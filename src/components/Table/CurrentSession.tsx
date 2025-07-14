@@ -19,10 +19,10 @@ const CurrentSession = () => {
     const handleComplete = async (id: string) => {
         const { data, error } = await approveSession({ id, status: "COMPLETED" })
         if (error) {
-            ShowToastify({ error: "Unsuccessful to approve or reject the session" })
+            ShowToastify({ error: "Unsuccessful to make session complete, please try again" })
             return
         }
-        ShowToastify({ success: "Session approved or rejected successfully" })
+        ShowToastify({ success: "Session is complete successfully" })
     }
 
     return (
