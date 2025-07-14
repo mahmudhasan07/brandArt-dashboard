@@ -22,20 +22,20 @@ const NotifyUser = (serviceId: any, setModal1: any) => {
   const handleNotification = async (e: any) => {
     e.preventDefault();
 
-    console.log(serviceId);
+    console.log(formData);
 
     const { data, error } = await notifyFn({
-      formData,
+      data: formData,
       id: serviceId?.serviceId,
     });
     if (error) {
       ShowToastify({ error: "Unsuccessful to send notification" });
       setFormData({ title: "", body: "" });
-      setModal1(false);
+      // setModal1(false);
       return;
     }
     ShowToastify({ success: "Successfully sent notification" });
-    setModal1(false);
+    // setModal1(false);
   };
 
   return (

@@ -86,7 +86,7 @@ const WaitingApprove = () => {
                 <td className="px-4 py-2">{item?.user?.email}</td>
                 <td className="px-4 py-2 ">{item?.createdAt.split("T")[0]}</td>
                 <td className="px-4 py-2 ">
-                  {item?.connectedServices[0]?.connectedService?.offer}
+                  {item?.connectedServices[0]?.connectedService?.service.title}
                 </td>
                 <td className="px-4 py-2 flex justify-center gap-5 ">
                   <button

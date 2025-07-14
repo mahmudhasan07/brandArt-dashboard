@@ -82,7 +82,7 @@ const NextQueue = () => {
                 </td>
                 <td className="px-4 py-2 flex justify-center gap-5 ">
                   <button
-                    onClick={() => handleNotification(item.id)}
+                    onClick={() => handleNotification(item.userId)}
                     className="p-2 bg-primary text-white font-semibold rounded-lg"
                   >
                     Notify
