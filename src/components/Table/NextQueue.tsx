@@ -21,10 +21,10 @@ const NextQueue = () => {
     const handleCancel = async (id: string, status: string) => {
         const { data, error } = await approveSession({ id, status: status })
         if (error) {
-            ShowToastify({ error: "Unsuccessful to approve or reject the session" })
+            ShowToastify({ error: "Unsuccessful to cancel the session" })
             return
         }
-        ShowToastify({ success: "Session approved or rejected successfully" })
+        ShowToastify({ success: "Session cancel successfully" })
     }
 
     const handleNotification = async(id: string) => {
@@ -35,7 +35,7 @@ const NextQueue = () => {
 
         const { data, error } = await notifyFn({body, id})
         if (error) {
-            ShowToastify({ error: "Unable to send notification" })
+            ShowToastify({ error: "Unsuccessful to send notification" })
             return
         }
         ShowToastify({ success: "Successfully sent notification" })
