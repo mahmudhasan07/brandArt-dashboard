@@ -9,6 +9,7 @@ import Image from "next/image";
 import noFace from "@/assests/no-face.png";
 import ShowToastify from "@/utils/ShowToastify";
 import { ToastContainer } from "react-toastify";
+import { stat } from "fs";
 
 const WaitingApprove = () => {
   const [approveSession] = useApproveSessionMutation();
@@ -25,10 +26,24 @@ const WaitingApprove = () => {
 
     const { data, error } = await approveSession({ id, status: status });
     if (error) {
-      ShowToastify({ error: "Unsuccessful to approve or reject the session" });
+      if (status === "ACCEPTED") {
+        ShowToastify({
+          error: "Unsuccessful to make session approve, please try again",
+        });
+      }
+
+      ShowToastify({
+        error: "Unsuccessful to make session reject, please try again",
+      });
       return;
     }
-    ShowToastify({ success: "Session approved or rejected successfully" });
+
+    if (status === "ACCEPTED") {
+      ShowToastify({ success: "Session is approve successfully" });
+      return;
+    }
+
+    ShowToastify({ success: "Session rejected successfully" });
   };
 
   return (
