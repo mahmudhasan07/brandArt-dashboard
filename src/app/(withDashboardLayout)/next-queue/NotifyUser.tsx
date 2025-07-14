@@ -30,6 +30,7 @@ const NotifyUser = (serviceId: any) => {
     });
     if (error) {
       ShowToastify({ error: "Unsuccessful to send notification" });
+      setFormData({ title: "", body: "" });
       return;
     }
     ShowToastify({ success: "Successfully sent notification" });

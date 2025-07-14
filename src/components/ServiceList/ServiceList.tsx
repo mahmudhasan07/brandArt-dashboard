@@ -172,7 +172,7 @@ export default function ServiceList() {
                       <p className="font-medium">
                         {detail.type.replace("_", " ")}
                       </p>
-                      <p>Offer: {detail.offer}</p>
+                      {/* <p>Offer: {detail.offer}</p> */}
                       <p>Duration: {detail.duration}</p>
                       <p>Price: ${detail.price.toFixed(2)}</p>
                       {detail.additionalOffer && (
