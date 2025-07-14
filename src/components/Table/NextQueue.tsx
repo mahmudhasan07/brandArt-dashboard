@@ -110,7 +110,7 @@ const NextQueue = () => {
           </div>
           {/* <UpdateSubscription id={id} /> */}
           {/* <LocationHoursForm></LocationHoursForm> */}
-          <NotifyUser serviceId={serviceId}></NotifyUser>
+          <NotifyUser serviceId={serviceId} setModal1={setModal1}></NotifyUser>
         </div>
       </dialog>
 

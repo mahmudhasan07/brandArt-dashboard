@@ -3,7 +3,7 @@ import ShowToastify from "@/utils/ShowToastify";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
-const NotifyUser = (serviceId: any) => {
+const NotifyUser = (serviceId: any, setModal1: any) => {
   const [notifyFn] = useAddNotificationMutation();
   const [formData, setFormData] = useState({
     title: "",
@@ -31,9 +31,11 @@ const NotifyUser = (serviceId: any) => {
     if (error) {
       ShowToastify({ error: "Unsuccessful to send notification" });
       setFormData({ title: "", body: "" });
+      setModal1(false);
       return;
     }
     ShowToastify({ success: "Successfully sent notification" });
+    setModal1(false);
   };
 
   return (
