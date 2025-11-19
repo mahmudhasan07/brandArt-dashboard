@@ -3,8 +3,8 @@ import baseApi from "./baseApi";
 const location = baseApi.injectEndpoints({
     endpoints: (build) => ({
         allLocations: build.query({
-            query: () => ({
-                url: '/locations/get-my-locations',
+            query: ({page, limit}) => ({
+                url: `/locations/get-my-locations?page=${page}&limit=${limit}`,
                 method: 'GET'
             }),
             providesTags: ["location"]

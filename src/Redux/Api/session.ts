@@ -4,8 +4,8 @@ import baseApi from "./baseApi";
 const session = baseApi.injectEndpoints({
   endpoints: (build) => ({
     currentSession: build.query({
-      query: (filter) => ({
-        url: `/bookings/my-bookings?filter=${filter}`,
+      query: ({limit, page, filter}) => ({
+        url: `/bookings/my-bookings?filter=${filter}&page=${page}&limit=${limit}`,
         method: "GET",
       }),
       providesTags: ["session"],

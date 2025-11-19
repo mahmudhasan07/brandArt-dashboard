@@ -17,12 +17,20 @@ const NextQueue = () => {
   const [approveSession] = useApproveSessionMutation();
   const [serviceId, setServiceId] = useState("");
   const [Modal1, setModal1] = useState(false);
-  const { result, loading } = useCurrentSessionQuery("ACCEPTED", {
+
+  const [limit, setLimit] = useState(12);
+  const [page, setPage] = useState(1);
+
+
+  const { result, loading, totalPages } = useCurrentSessionQuery({ limit, page, filter: "ACCEPTED" }, {
     selectFromResult: ({ data, isLoading }) => ({
       result: data?.data,
       loading: isLoading,
+      totalPages: data?.data?.meta?.totalPages
     }),
   });
+
+  const button = result && [...Array(totalPages).keys()];
 
   const handleCancel = async (id: string, status: string) => {
     const { data, error } = await approveSession({ id, status: status });
@@ -100,6 +108,19 @@ const NextQueue = () => {
         </table>
       )}
 
+      <div className="flex justify-center gap-5 mt-5">
+        {button &&
+          button.map((item: string, index: number) => (
+            <button
+              onClick={() => setPage(index + 1)}
+              className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
+              key={index}
+            >
+              {item + 1}
+            </button>
+          ))}
+      </div>
+
       <dialog
         className="backdrop-blur-[2px] bg-black/30 h-screen top-0 w-full"
         open={Modal1}
@@ -113,6 +134,7 @@ const NextQueue = () => {
           <NotifyUser serviceId={serviceId} setModal1={setModal1}></NotifyUser>
         </div>
       </dialog>
+
 
       <ToastContainer></ToastContainer>
     </section>

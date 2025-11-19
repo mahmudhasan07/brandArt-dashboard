@@ -23,7 +23,7 @@ import { useMyActiveBookingUsersQuery } from "@/Redux/Api/session";
 const UserTable = () => {
   const route = useRouter();
 
-  const [limit, setLimit] = useState(15);
+  const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
 
   const { userData, isLoading, totalPages } = useMyActiveBookingUsersQuery(

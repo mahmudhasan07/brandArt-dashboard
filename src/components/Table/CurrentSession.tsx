@@ -1,6 +1,6 @@
 "use client"
 import { useApproveSessionMutation, useCurrentSessionQuery } from '@/Redux/Api/session';
-import React from 'react';
+import React, { useState } from 'react';
 import TableLoader from '../Loader/TableLoader';
 import Image from 'next/image';
 import ShowToastify from '@/utils/ShowToastify';
@@ -9,12 +9,19 @@ import noFace from "@/assests/no-face.png"
 
 const CurrentSession = () => {
     const [approveSession] = useApproveSessionMutation()
-    const { result, loading } = useCurrentSessionQuery("ACCEPTED", {
+
+      const [limit, setLimit] = useState(12);
+      const [page, setPage] = useState(1);
+    const { result, loading, totalPages } = useCurrentSessionQuery({ limit, page , filter: "ACCEPTED"} , {
         selectFromResult: ({ data, isLoading }) => ({
             result: data?.data,
-            loading: isLoading
+            loading: isLoading,
+            totalPages: data?.data?.meta?.totalPages
         }),
     })
+
+
+     const button = result && [...Array(totalPages).keys()];
 
     const handleComplete = async (id: string) => {
         const { data, error } = await approveSession({ id, status: "COMPLETED" })
@@ -65,6 +72,19 @@ const CurrentSession = () => {
                     </table>
 
             }
+
+                  <div className="flex justify-center gap-5 mt-5">
+        {button &&
+          button.map((item: string, index: number) => (
+            <button
+              onClick={() => setPage(index + 1)}
+              className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
+              key={index}
+            >
+              {item + 1}
+            </button>
+          ))}
+      </div>
             <ToastContainer></ToastContainer>
         </section>
     );

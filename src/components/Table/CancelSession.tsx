@@ -1,17 +1,24 @@
 "use client"
 import { useCurrentSessionQuery } from '@/Redux/Api/session';
-import React from 'react';
+import React, { useState } from 'react';
 import TableLoader from '../Loader/TableLoader';
 import Image from 'next/image';
 
 const CancelSession = () => {
 
-    const { result, loading } = useCurrentSessionQuery("REJECTED", {
+    const [limit, setLimit] = useState(12);
+    const [page, setPage] = useState(1);
+
+    const { result, loading, totalPages } = useCurrentSessionQuery({ limit, page, filter: "REJECTED" }, {
         selectFromResult: ({ data, isLoading }) => ({
             result: data?.data,
-            loading: isLoading
+            loading: isLoading,
+            totalPages: data?.data?.meta?.totalPages
         }),
     })
+
+    const button = result && [...Array(totalPages).keys()];
+
 
     const handleComplete = async (id: string, status: string) => {
         // const { data, error } = await approveSessionFun({ id, status: "COMPLETED" })
@@ -39,28 +46,41 @@ const CancelSession = () => {
                                 {/* <th className="px-4 py-2 border">Purchase Date</th> */}
                             </tr>
                         </thead>
-                     <tbody>
-                        {
-                            result?.map((item: any) => (
-                                <tr key={item.id} className="hover:bg-gray-50 text-center border-b">
-                                    <td className="px-4 py-2 "><Image src={item?.user?.profileImage} alt="" width={20} height={20} className='w-10 h-10 rounded-full mx-auto' /></td>
-                                    <td className="px-4 py-2 ">{item?.user?.userName}</td>
-                                    <td className="px-4 py-2 ">{item?.user?.email}</td>
-                                    <td className="px-4 py-2 ">{item?.createdAt.split("T")[0]}</td>
-                                    <td className="px-4 py-2 ">{item?.connectedServices[0]?.connectedService?.offer}</td>
-                                    <td className="px-4 py-2 ">{item?.status}</td>
-                                    {/* <td className="px-4 py-2 flex justify-center gap-5 border">
+                        <tbody>
+                            {
+                                result?.map((item: any) => (
+                                    <tr key={item.id} className="hover:bg-gray-50 text-center border-b">
+                                        <td className="px-4 py-2 "><Image src={item?.user?.profileImage} alt="" width={20} height={20} className='w-10 h-10 rounded-full mx-auto' /></td>
+                                        <td className="px-4 py-2 ">{item?.user?.userName}</td>
+                                        <td className="px-4 py-2 ">{item?.user?.email}</td>
+                                        <td className="px-4 py-2 ">{item?.createdAt.split("T")[0]}</td>
+                                        <td className="px-4 py-2 ">{item?.connectedServices[0]?.connectedService?.offer}</td>
+                                        <td className="px-4 py-2 ">{item?.status}</td>
+                                        {/* <td className="px-4 py-2 flex justify-center gap-5 border">
                                         <button onClick={()=> handleComplete(item.id, "ACCEPTED")} className='p-2 bg-primary text-white font-semibold rounded-lg'>Approve</button>
                                         <button onClick={()=> handleComplete(item.id, "REJECTED")} className='p-2 bg-secondary text-white font-semibold rounded-lg '>Reject</button>
                                     </td> */}
-                                </tr>
-                            ))
+                                    </tr>
+                                ))
 
-                        }
-                     </tbody>
+                            }
+                        </tbody>
                     </table>
 
             }
+            <div className="flex justify-center gap-5 mt-5">
+                {button &&
+                    button.map((item: string, index: number) => (
+                        <button
+                            onClick={() => setPage(index + 1)}
+                            className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
+                            key={index}
+                        >
+                            {item + 1}
+                        </button>
+                    ))}
+            </div>
+
 
         </section>
     );

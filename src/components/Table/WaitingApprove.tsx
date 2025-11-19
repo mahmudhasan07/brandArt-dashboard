@@ -3,7 +3,7 @@ import {
   useApproveSessionMutation,
   useCurrentSessionQuery,
 } from "@/Redux/Api/session";
-import React from "react";
+import React, { useState } from "react";
 import TableLoader from "../Loader/TableLoader";
 import Image from "next/image";
 import noFace from "@/assests/no-face.png";
@@ -13,13 +13,17 @@ import { stat } from "fs";
 
 const WaitingApprove = () => {
   const [approveSession] = useApproveSessionMutation();
-
-  const { result, loading } = useCurrentSessionQuery("PENDING", {
+  const [limit, setLimit] = useState(12);
+  const [page, setPage] = useState(1);
+  const { result, loading, totalPages } = useCurrentSessionQuery({limit, page, filter : "PENDING"}, {
     selectFromResult: ({ data, isLoading }) => ({
       result: data?.data,
       loading: isLoading,
+      totalPages: data?.data?.meta?.totalPages
     }),
   });
+
+  const button = result && [...Array(totalPages).keys()];
 
   const handleComplete = async (id: string, status: string) => {
     console.log("ID", id);
@@ -107,6 +111,20 @@ const WaitingApprove = () => {
           </tbody>
         </table>
       )}
+
+   <div className="flex justify-center gap-5 mt-5">
+        {button &&
+          button.map((item: string, index: number) => (
+            <button
+              onClick={() => setPage(index + 1)}
+              className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
+              key={index}
+            >
+              {item + 1}
+            </button>
+          ))}
+      </div>
+
       <ToastContainer></ToastContainer>
     </section>
   );

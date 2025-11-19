@@ -11,12 +11,19 @@ import useGeoLocation from '@/utils/LocationLatLong';
 const LocationHour = () => {
     const [Modal, setModal] = useState<boolean>(false);
     const [deleteFn] = useDeleteLocationMutation()
-    const { result, loading } = useAllLocationsQuery("", {
+  const [limit, setLimit] = useState(12);
+  const [page, setPage] = useState(1);
+
+    const { result, loading, totalPages } = useAllLocationsQuery({limit, page}, {
         selectFromResult: ({ data, isLoading }) => ({
             result: data?.data,
-            loading: isLoading
+            loading: isLoading,
+            totalPages: data?.data?.meta?.totalPages
         }),
     })
+
+      const button = result && [...Array(totalPages).keys()];
+
 
     const handleDelete = async (id: string) => {
         const { data, error } = await deleteFn(id)
@@ -70,6 +77,19 @@ const LocationHour = () => {
 
 
             </div>
+
+                  <div className="flex justify-center gap-5 mt-5">
+        {button &&
+          button.map((item: string, index: number) => (
+            <button
+              onClick={() => setPage(index + 1)}
+              className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
+              key={index}
+            >
+              {item + 1}
+            </button>
+          ))}
+      </div>
 
             <dialog className='backdrop-blur-[2px] bg-black/30 h-screen top-0 w-full' open={Modal}>
                 <div className='bg-white text-black  rounded-xl border-2 w-fit mx-auto top-[10%] p-5 relative '>
