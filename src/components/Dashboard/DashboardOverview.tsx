@@ -23,12 +23,6 @@ export default function DashboardOverview() {
   // const runningEvent = data?.data?.data?.filter((item: { startDate: Date | string }) => item?.startDate >= today);
   // const completedEvent = data?.data?.data?.filter((item: { startDate: Date | string }) => item?.startDate <= today);
 
-
-  console.log("totalIncome", totalIncome);
-  console.log("userLength", userLength);
-  console.log("ownerLength", ownerLength);
-  
-
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
   };

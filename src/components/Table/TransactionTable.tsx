@@ -17,7 +17,6 @@ const TransactionTable = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const today = new Date().toISOString().split("T")[0]
 
-    console.log("paymentTable", paymentTable);
 
 
     const totalPages = paymentTable && Math.ceil(paymentTable?.data?.length / itemsPerPage);
@@ -26,10 +25,6 @@ const TransactionTable = () => {
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
-
-    console.log("currentPageData", currentPageData);
-
-
 
 
     return (

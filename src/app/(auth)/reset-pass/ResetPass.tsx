@@ -38,10 +38,8 @@ const ResetPass = () => {
       setSubmit("Submit");
       return;
     }
-
     // Continue with submission
     setError("");
-    console.log("Password reset submitted!");
 
     const { error } = await passwordFn({ newPassword: password });
     if (

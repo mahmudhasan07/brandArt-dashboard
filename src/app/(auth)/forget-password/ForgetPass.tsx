@@ -19,10 +19,7 @@ const ForgetPass = () => {
     e.preventDefault();
     const email = e.currentTarget.email.value;
 
-    console.log(email);
-
     const { data, error } = await forgetFn({ email });
-    console.log(error);
 
     if (
       error &&

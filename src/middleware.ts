@@ -19,8 +19,6 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get("accessToken")?.value;
 
-  console.log(token);
-
   if (!token) {
     return NextResponse.redirect(new URL(homeRoute, request.url));
   }

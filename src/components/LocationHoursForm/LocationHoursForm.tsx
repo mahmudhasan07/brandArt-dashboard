@@ -26,7 +26,6 @@ export default function LocationHoursForm() {
             endTime: endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : 'Invalid Time',
             location
         };
-        console.log(output);
 
         const { data, error } = await addLocationFn(output);
         if (error) {

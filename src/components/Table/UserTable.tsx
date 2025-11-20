@@ -37,10 +37,6 @@ const UserTable = () => {
     }
   );
 
-  console.log("User Data", userData);
-
-  console.log("totalPages", totalPages);
-
   const [updateStatus] = useUserStatusUpdateMutation();
   const button = userData && [...Array(totalPages).keys()];
   const handleStatus = async (id: string) => {

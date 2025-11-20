@@ -37,10 +37,6 @@ const UserTable2 = () => {
     }
   );
 
-  console.log("User Data", userData);
-
-  console.log("totalPages", totalPages);
-
   const [updateStatus] = useUserBlockStatusUpdateMutation();
   const button = userData && [...Array(totalPages).keys()];
   const handleStatus = async (id: string) => {

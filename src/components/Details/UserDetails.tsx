@@ -9,11 +9,9 @@ interface UserDetail { id: string, businessName: string, businessAddress: string
 
 const UserDetails: React.FC = () => {
     const { id } = useParams();
-    console.log("User ID:", id); // Debugging ID
 
     const { user, loading } = useSingleUserQuery(id, {
         selectFromResult: ({ data, isLoading }) => {
-            console.log("Fetched User Data:", data); // Debugging API Response
             return {
                 user: data?.data,
                 loading: isLoading,
@@ -23,9 +21,6 @@ const UserDetails: React.FC = () => {
 
     if (loading) return <Loader className="w-40 mx-auto" />;
     if (!user) return <p className="text-center text-red-500">⚠️ User not found or API error!</p>;
-
-    console.log(user);
-
 
     return (
         <div className="container mx-auto p-4">

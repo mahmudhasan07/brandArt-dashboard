@@ -63,8 +63,7 @@ const Navbar = () => {
         if (tokenDetails != undefined && tokenDetails.exp && tokenDetails.exp > currentTime) {
 
         } else {
-            console.log("token expired");
-            
+ 
             // dispatch(logOut())
             // Cookies?.remove("accessToken")
             // dispatch(checkOutOrder({ id: null, checkoutData: null }))

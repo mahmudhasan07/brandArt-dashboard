@@ -22,8 +22,6 @@ const NotifyUser = (serviceId: any, setModal1: any) => {
   const handleNotification = async (e: any) => {
     e.preventDefault();
 
-    console.log(formData);
-
     const { data, error } = await notifyFn({
       data: formData,
       id: serviceId?.serviceId,

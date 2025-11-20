@@ -11,8 +11,6 @@ import Cookies from "js-cookie";
 const VerifyOtp = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  console.log(searchParams.get("email"));
   const [OtpFn] = useVerifyOtpMutation();
 
   const [submit, setSubmit] = useState("Submit");
@@ -25,7 +23,6 @@ const VerifyOtp = () => {
     const otpCode = e.currentTarget.otp.value;
 
     const verifyOtp = { userId, otpCode };
-    console.log(verifyOtp);
 
     const { data, error } = await OtpFn(verifyOtp);
 

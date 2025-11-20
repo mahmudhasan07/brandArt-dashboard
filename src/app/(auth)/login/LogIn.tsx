@@ -48,10 +48,7 @@ const LogIn = () => {
                 dispatch(logOut())
                 return
 
-            }
-
-            console.log(data?.data?.accessToken);
-            
+            }      
 
             Cookies.set("accessToken", data?.data?.accessToken)
             dispatch(setUser({ name: data?.data?.userName, role: data?.data?.role }))

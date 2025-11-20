@@ -26,7 +26,6 @@ const WaitingApprove = () => {
   const button = result && [...Array(totalPages).keys()];
 
   const handleComplete = async (id: string, status: string) => {
-    console.log("ID", id);
 
     const { data, error } = await approveSession({ id, status: status });
     if (error) {

@@ -17,8 +17,6 @@ export default function UpdateServices(serviceId: any) {
   const [submit, setSubmit] = useState("Submit");
   const [updateServiceFn] = useUpdateServiceMutation();
 
-  console.log(serviceId, "serviceId");
-
   const { ServiceData, loading } = useGetServiceByIdQuery(serviceId.serviceId, {
     selectFromResult: ({ data, isLoading }) => ({
       ServiceData: data?.data,
@@ -26,7 +24,6 @@ export default function UpdateServices(serviceId: any) {
     }),
   });
 
-  console.log(ServiceData);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
