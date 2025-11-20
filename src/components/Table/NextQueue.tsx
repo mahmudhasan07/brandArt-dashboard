@@ -109,17 +109,17 @@ const NextQueue = () => {
       )}
 
       <div className="flex justify-center gap-5 mt-5">
-        {button &&
-          button.map((item: string, index: number) => (
-            <button
-              onClick={() => setPage(index + 1)}
-              className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
-              key={index}
-            >
-              {item + 1}
-            </button>
-          ))}
-      </div>
+                {button &&
+                    button.map((item: string, index: number) => (
+                        <button
+                            onClick={() => setPage(index + 1)}
+                            className={`border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold  ${page === index + 1 ? "bg-primary text-white" : ""}`}
+                            key={index}
+                        >
+                            {item + 1}
+                        </button>
+                    ))}
+            </div>
 
       <dialog
         className="backdrop-blur-[2px] bg-black/30 h-screen top-0 w-full"
