@@ -15,7 +15,7 @@ const WaitingApprove = () => {
   const [approveSession] = useApproveSessionMutation();
   const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
-  const { result, loading, totalPages } = useCurrentSessionQuery({limit, page, filter : "PENDING"}, {
+  const { result, loading, totalPages } = useCurrentSessionQuery({ limit, page, filter: "PENDING" }, {
     selectFromResult: ({ data, isLoading }) => ({
       result: data?.data?.data,
       loading: isLoading,
@@ -111,12 +111,12 @@ const WaitingApprove = () => {
         </table>
       )}
 
-   <div className="flex justify-center gap-5 mt-5">
+      <div className="flex justify-center gap-5 mt-5">
         {button &&
           button.map((item: string, index: number) => (
             <button
               onClick={() => setPage(index + 1)}
-              className="border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold"
+              className={`border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold  ${page === index + 1 ? "bg-primary text-white" : ""}`}
               key={index}
             >
               {item + 1}
