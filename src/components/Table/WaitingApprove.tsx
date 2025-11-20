@@ -17,9 +17,9 @@ const WaitingApprove = () => {
   const [page, setPage] = useState(1);
   const { result, loading, totalPages } = useCurrentSessionQuery({limit, page, filter : "PENDING"}, {
     selectFromResult: ({ data, isLoading }) => ({
-      result: data?.data,
+      result: data?.data?.data,
       loading: isLoading,
-      totalPages: data?.data?.meta?.totalPages
+      totalPages: data?.data?.meta?.totalPage
     }),
   });
 
