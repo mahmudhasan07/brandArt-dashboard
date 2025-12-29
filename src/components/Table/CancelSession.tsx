@@ -40,7 +40,6 @@ const CancelSession = () => {
               <th className="px-4 py-2 border">Time</th>
               <th className="px-4 py-2 border">Location</th>
               <th className="px-4 py-2 border">Service</th>
-              <th className="px-4 py-2 border">Action</th>
               {/* <th className="px-4 py-2 border">Event Date</th> */}
               {/* <th className="px-4 py-2 border">Action</th> */}
               {/* <th className="px-4 py-2 border">Amount</th> */}
