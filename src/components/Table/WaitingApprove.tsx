@@ -15,18 +15,20 @@ const WaitingApprove = () => {
   const [approveSession] = useApproveSessionMutation();
   const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
-  const { result, loading, totalPages } = useCurrentSessionQuery({ limit, page, filter: "PENDING" }, {
-    selectFromResult: ({ data, isLoading }) => ({
-      result: data?.data?.data,
-      loading: isLoading,
-      totalPages: data?.data?.meta?.totalPage
-    }),
-  });
+  const { result, loading, totalPages } = useCurrentSessionQuery(
+    { limit, page, filter: "PENDING" },
+    {
+      selectFromResult: ({ data, isLoading }) => ({
+        result: data?.data?.data,
+        loading: isLoading,
+        totalPages: data?.data?.meta?.totalPage,
+      }),
+    }
+  );
 
   const button = result && [...Array(totalPages).keys()];
 
   const handleComplete = async (id: string, status: string) => {
-
     const { data, error } = await approveSession({ id, status: status });
     if (error) {
       if (status === "ACCEPTED") {
@@ -58,11 +60,12 @@ const WaitingApprove = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">Image</th>
               <th className="px-4 py-2 border">Name</th>
               <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Started At</th>
-              <th className="px-4 py-2 border">Service </th>
+              <th className="px-4 py-2 border">Date</th>
+              <th className="px-4 py-2 border">Time</th>
+              <th className="px-4 py-2 border">Location</th>
+              <th className="px-4 py-2 border">Service</th>
               <th className="px-4 py-2 border">Action</th>
               {/* <th className="px-4 py-2 border">Event Date</th> */}
               {/* <th className="px-4 py-2 border">Action</th> */}
@@ -76,20 +79,13 @@ const WaitingApprove = () => {
                 key={item.id}
                 className="hover:bg-gray-50 text-center border-b"
               >
+                <td className="px-4 py-2">{item?.user?.userName || "N/A"}</td>
+                <td className="px-4 py-2">{item?.user?.email || "N/A"}</td>
+                <td className="px-4 py-2">{item?.serviceDate || "N/A"}</td>
+                <td className="px-4 py-2">{item?.serviceTime || "N/A"}</td>
+                <td className="px-4 py-2">{item?.serviceLocation || "N/A"}</td>
                 <td className="px-4 py-2">
-                  <Image
-                    src={item?.user?.profileImage ?? noFace}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className="w-10 h-10 rounded-full mx-auto"
-                  />
-                </td>
-                <td className="px-4 py-2 ">{item?.user?.userName}</td>
-                <td className="px-4 py-2">{item?.user?.email}</td>
-                <td className="px-4 py-2 ">{item?.createdAt.split("T")[0]}</td>
-                <td className="px-4 py-2 ">
-                  {item?.connectedServices[0]?.connectedService?.service.title}
+                  {item?.connectedServices[0]?.connectedService.service.title || "N/A"}
                 </td>
                 <td className="px-4 py-2 flex justify-center gap-5 ">
                   <button
@@ -116,7 +112,9 @@ const WaitingApprove = () => {
           button.map((item: string, index: number) => (
             <button
               onClick={() => setPage(index + 1)}
-              className={`border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold  ${page === index + 1 ? "bg-primary text-white" : ""}`}
+              className={`border-2 px-3 py-1 rounded-lg border-primary/50 text-primary text-lg font-bold  ${
+                page === index + 1 ? "bg-primary text-white" : ""
+              }`}
               key={index}
             >
               {item + 1}
